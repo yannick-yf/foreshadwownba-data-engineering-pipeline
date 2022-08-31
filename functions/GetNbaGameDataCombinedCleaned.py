@@ -1,6 +1,6 @@
 # NbaGames.py
 
-from functions import WebScrapNbaData
+from functions import WebScrapNbaGameData
 import pandas as pd
 
 def fn_get_seasons_nba_games_data(SEASON_ARRAY):
@@ -8,7 +8,7 @@ def fn_get_seasons_nba_games_data(SEASON_ARRAY):
     NBA_GAMES_DF = pd.DataFrame()
 
     for season in SEASON_ARRAY:
-        NBA_GAMES_DF_tmp = WebScrapNbaData.webscrappe_nba_games_data(season)
+        NBA_GAMES_DF_tmp = WebScrapNbaGameData.webscrappe_nba_games_data(season)
         NBA_GAMES_DF = NBA_GAMES_DF.append(NBA_GAMES_DF_tmp)
 
     return NBA_GAMES_DF
@@ -18,7 +18,7 @@ def fn_get_seasons_nba_schedules_overtime_data(SEASON_ARRAY):
     NBA_SCHEDULES_DF = pd.DataFrame()
 
     for season in SEASON_ARRAY:
-        NBA_SCHEDULES_DF_tmp = WebScrapNbaData.webscrappe_nba_schedule_overtime_data(season)
+        NBA_SCHEDULES_DF_tmp = WebScrapNbaGameData.webscrappe_nba_schedule_overtime_data(season)
         NBA_SCHEDULES_DF = NBA_SCHEDULES_DF.append(NBA_SCHEDULES_DF_tmp)
 
     return NBA_SCHEDULES_DF
