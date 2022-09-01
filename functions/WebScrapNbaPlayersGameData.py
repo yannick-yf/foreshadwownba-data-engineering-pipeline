@@ -81,64 +81,64 @@ def webscrappe_nba_list_players_and_attributes_data(SEASON):
 
     return players
 
-#------------------------------------------------------------------------------------------------------------
+# #------------------------------------------------------------------------------------------------------------
 
-def webscrappe_nba_schedule_overtime_data(SEASON):
+# def webscrappe_nba_schedule_overtime_data(SEASON):
     
-    #------------------------------------------------------
-    # Get team reference data 
+#     #------------------------------------------------------
+#     # Get team reference data 
 
-    team_city_refdata = pd.read_csv('./constants/team_city_refdata.csv', sep = ';')
+#     team_city_refdata = pd.read_csv('./constants/team_city_refdata.csv', sep = ';')
 
-    #------------------------------------------------------
-    # Initialization of the dataframe to fill-in
-    schedules = pd.DataFrame()
+#     #------------------------------------------------------
+#     # Initialization of the dataframe to fill-in
+#     schedules = pd.DataFrame()
 
-    #------------------------------------------------------
-    # For Loop Throught all the team abrev for the given season
+#     #------------------------------------------------------
+#     # For Loop Throught all the team abrev for the given season
 
-    for index, row in team_city_refdata.iterrows():
+#     for index, row in team_city_refdata.iterrows():
         
-        # URL to scrape
-        team = row['team_abrev']
+#         # URL to scrape
+#         team = row['team_abrev']
 
-        # URL to scrape
-        url = f"https://www.basketball-reference.com/teams/{team}/{SEASON}_games.html"
+#         # URL to scrape
+#         url = f"https://www.basketball-reference.com/teams/{team}/{SEASON}_games.html"
 
-        if str(requests.get(url)) != '<Response [404]>':
+#         if str(requests.get(url)) != '<Response [404]>':
 
-            # collect HTML data and create beautiful soup object:
-            # collect HTML data
-            html = urlopen(url)
+#             # collect HTML data and create beautiful soup object:
+#             # collect HTML data
+#             html = urlopen(url)
                     
-            # create beautiful soup object from HTML
-            soup = BeautifulSoup(html,  "html.parser")
+#             # create beautiful soup object from HTML
+#             soup = BeautifulSoup(html,  "html.parser")
 
-            # use getText()to extract the headers into a list
-            titles = [th.getText() for th in soup.findAll('tr', limit=2)[1].findAll('th')]
+#             # use getText()to extract the headers into a list
+#             titles = [th.getText() for th in soup.findAll('tr', limit=2)[1].findAll('th')]
 
-            rows = soup.findAll('tr')[1:]
+#             rows = soup.findAll('tr')[1:]
 
-            rows_data = [[td.getText() for td in rows[i].findAll('td')]
-                            for i in range(len(rows))]
+#             rows_data = [[td.getText() for td in rows[i].findAll('td')]
+#                             for i in range(len(rows))]
 
-            if len(rows_data) != 0:
-                # create the dataframe
-                schedule_tmp = pd.DataFrame(rows_data)
+#             if len(rows_data) != 0:
+#                 # create the dataframe
+#                 schedule_tmp = pd.DataFrame(rows_data)
 
-                cols = ['game_date', 'time_start', 'nc1', 'nc2', 'extdom', 'opponent', 'w_l', 'overtime', 'pts_tm', 'pts_opp', 'w_tot', 'l_tot', 'streak_w_l', 'nc3']
-                schedule_tmp.columns =  cols
+#                 cols = ['game_date', 'time_start', 'nc1', 'nc2', 'extdom', 'opponent', 'w_l', 'overtime', 'pts_tm', 'pts_opp', 'w_tot', 'l_tot', 'streak_w_l', 'nc3']
+#                 schedule_tmp.columns =  cols
 
-                schedule_tmp = schedule_tmp.dropna()
+#                 schedule_tmp = schedule_tmp.dropna()
 
-                schedule_tmp['id_season'] = SEASON
-                schedule_tmp['tm'] = team
+#                 schedule_tmp['id_season'] = SEASON
+#                 schedule_tmp['tm'] = team
 
-                schedules = schedules.append(schedule_tmp)
+#                 schedules = schedules.append(schedule_tmp)
 
-    schedules = schedules[['id_season', 'tm', 'game_date', 'time_start', 'extdom', 'opponent', 'w_l', 'overtime', 'pts_tm', 'pts_opp', 'w_tot', 'l_tot', 'streak_w_l']]
+#     schedules = schedules[['id_season', 'tm', 'game_date', 'time_start', 'extdom', 'opponent', 'w_l', 'overtime', 'pts_tm', 'pts_opp', 'w_tot', 'l_tot', 'streak_w_l']]
             
-    return schedules
+#     return schedules
 
 
 
