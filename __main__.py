@@ -56,7 +56,8 @@ if __name__ == '__main__':
     # Get NBA players games data for all the season requested by the user - Output of the process is saved in pipeline output
     print('Start - NBA Games data pull process')
     method_start_time = datetime.datetime.now()
-    nba_list_players_multi_season_dataset = GetNbaPlayerDataCombinedCleanedProcessed.fn_get_nba_list_players_and_attributes_data(season_to_pull)
+    # nba_list_players_multi_season_dataset = GetNbaPlayerDataCombinedCleanedProcessed.fn_get_nba_list_players_and_attributes_data(season_to_pull)
+    nba_id_webscrappe_players = GetNbaPlayerDataCombinedCleanedProcessed.fn_get_id_webscrappe_for_players_games_data()
     method_end_time = datetime.datetime.now()
     duration = method_end_time - method_start_time
     print(f'NBA Games data pull process, duration: {duration}')
@@ -70,7 +71,8 @@ if __name__ == '__main__':
     # nba_games_multi_season_dataset.to_csv('./pipeline_output/nba_games_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     # nba_schedules_multi_season_dataset.to_csv('./pipeline_output/schedules_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     # training_dataset.to_csv('./pipeline_output/final_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
-    nba_list_players_multi_season_dataset.to_csv('./pipeline_output/nba_list_players_multi_season_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
+    # nba_list_players_multi_season_dataset.to_csv('./pipeline_output/nba_list_players_multi_season_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
+    nba_id_webscrappe_players.to_csv('./pipeline_output/nba_id_webscrappe_players_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     method_end_time = datetime.datetime.now()
     duration = method_end_time - method_start_time
     print(f'Writting data to CSV process, duration: {duration}')

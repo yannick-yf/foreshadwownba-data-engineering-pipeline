@@ -1,6 +1,6 @@
 # NbaGames.py
 
-from functions import WebScrapNbaPlayersGameData
+from functions import WebScrapNbaPlayersGameData, ManualRecodePlayerIdWebscrappe
 import pandas as pd
 import numpy as np
 
@@ -14,7 +14,7 @@ def fn_get_nba_list_players_and_attributes_data(SEASON_ARRAY):
 
     return NBA_PLAYERS_GAMES_DF
 
-
+# IMPORTANT # https://www.basketball-reference.com/friv/continuity.html
 def fn_get_id_webscrappe_for_players_games_data():
 
     list_players = pd.read_csv('pipeline_output/nba_list_players_multi_season_dataset_2022-08-31.csv')
@@ -54,7 +54,7 @@ def fn_get_id_webscrappe_for_players_games_data():
 
     list_players["id_part_2"] = np.where(
         list_players["last_name"].str.lower().str.len()<5,
-        list_players["last_name"],
+        list_players["last_name"].str.lower(),
         list_players['last_name'].str.lower().str[:5])
 
     #----------------------
@@ -75,5 +75,12 @@ def fn_get_id_webscrappe_for_players_games_data():
             list_players['id_part_3'] +\
             list_players["id_part_4"]
 
+    #----------------------------------
+    # Manual Recode due to duplicagtes
+    list_players = ManualRecodePlayerIdWebscrappe.manual_recode_id_webscrapping(list_players)
+
+    #----------------------------------------
+    # Sort the data frames by names and year
+    list_players = list_players.sort_values(by=['Name', 'id_season'])
 
     return list_players[['id_season', 'Name', 'id_webscrapping']]
