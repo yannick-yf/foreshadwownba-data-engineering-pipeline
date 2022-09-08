@@ -1,18 +1,27 @@
 # NbaGames.py
 
-from functions import WebScrapNbaPlayersGameData, ManualRecodePlayerIdWebscrappe
+from functions import ManualRecodePlayerIdWebscrappe, WebScrapNbaPlayersListAndAttributes, WebScrapNbaPlayersBoxscores
 import pandas as pd
 import numpy as np
+import datetime
 
 def fn_get_nba_list_players_and_attributes_data(SEASON_ARRAY):
 
     NBA_PLAYERS_GAMES_DF = pd.DataFrame()
 
     for season in SEASON_ARRAY:
-        NBA_PLAYERS_GAMES_DF_tmp = WebScrapNbaPlayersGameData.webscrappe_nba_list_players_and_attributes_data(season)
+        NBA_PLAYERS_GAMES_DF_tmp = WebScrapNbaPlayersListAndAttributes.webscrappe_nba_list_players_and_attributes_data(season)
         NBA_PLAYERS_GAMES_DF = NBA_PLAYERS_GAMES_DF.append(NBA_PLAYERS_GAMES_DF_tmp)
 
     return NBA_PLAYERS_GAMES_DF
+
+def fn_get_players_boxscores_data():
+
+    id_webscrappe_players = pd.read_csv('pipeline_output/nba_id_webscrappe_players_2022-09-07.csv')
+    players_boxscores, players_to_add_manually =  WebScrapNbaPlayersBoxscores.webscrappe_nba_players_boxscores_data(id_webscrappe_players)
+    players_to_add_manually.to_csv('./pipeline_output/players_to_add_manually_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
+
+    return players_boxscores
 
 # IMPORTANT # https://www.basketball-reference.com/friv/continuity.html
 def fn_get_id_webscrappe_for_players_games_data():
