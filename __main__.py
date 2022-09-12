@@ -72,14 +72,34 @@ if __name__ == '__main__':
     # print(f'NBA list players cleaning and id webscrappe creation process, duration: {duration}')
     # print('-----------------')
 
+    # #------------------------------------------------------------------
+    # # Get NBA players games data for all the season requested by the user - Output of the process is saved in pipeline output
+    # print('Start - NBA players boxscores games data pull process')
+    # method_start_time = datetime.datetime.now()
+    # nba_players_boxscores = GetNbaPlayerDataCombinedCleanedProcessed.fn_get_players_boxscores_data()
+    # method_end_time = datetime.datetime.now()
+    # duration = method_end_time - method_start_time
+    # print(f'NBA players boxscores pulling process, duration: {duration}')
+    # print('-----------------')
+
+    # #------------------------------------------------------------------
+    # # Get NBA players Salary data for all the season requested by the user - Output of the process is saved in pipeline output
+    # print('Start - NBA players salary data pull process')
+    # method_start_time = datetime.datetime.now()
+    # nba_players_salaries = GetNbaPlayerDataCombinedCleanedProcessed.fn_get_nba_players_salary_data(season_to_pull)
+    # method_end_time = datetime.datetime.now()
+    # duration = method_end_time - method_start_time
+    # print(f'NBA players salary pulling process, duration: {duration}')
+    # print('-----------------')
+
     #------------------------------------------------------------------
-    # Get NBA players games data for all the season requested by the user - Output of the process is saved in pipeline output
-    print('Start - NBA players boxscores games data pull process')
+    # Get NBA players Salary and attributes Cleaned and Combined data for all the season requested by the user - Output of the process is saved in pipeline output
+    print('Start - NBA players salary data pull process')
     method_start_time = datetime.datetime.now()
-    nba_players_boxscores = GetNbaPlayerDataCombinedCleanedProcessed.fn_get_players_boxscores_data()
+    nba_players_attributes_salaries = GetNbaPlayerDataCombinedCleanedProcessed.fn_clean_and_combined_player_attributes_and_salary()
     method_end_time = datetime.datetime.now()
     duration = method_end_time - method_start_time
-    print(f'NBA list players boxscores pulling process, duration: {duration}')
+    print(f'NBA players Salary and attributes Cleaned and Combined processing process, duration: {duration}')
     print('-----------------')
 
     #------------------------------------------------
@@ -92,8 +112,9 @@ if __name__ == '__main__':
     # training_dataset.to_csv('./pipeline_output/final_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     # nba_list_players_multi_season_dataset.to_csv('./pipeline_output/nba_list_players_multi_season_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     # nba_id_webscrappe_players.to_csv('./pipeline_output/nba_id_webscrappe_players_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
-    nba_players_boxscores.to_csv('./pipeline_output/nba_players_boxscores_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
-    nba_players_boxscores
+    # nba_players_boxscores.to_csv('./pipeline_output/nba_players_boxscores_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
+    # nba_players_salaries.to_csv('./pipeline_output/nba_players_salaries_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
+    nba_players_attributes_salaries.to_csv('./pipeline_output/nba_players_attributes_salaries_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     method_end_time = datetime.datetime.now()
     duration = method_end_time - method_start_time
     print(f'Writting data to CSV process, duration: {duration}')
