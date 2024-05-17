@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import requests
 import time
+import sys
 
 def webscrappe_nba_games_data(SEASON):
     
@@ -24,14 +25,17 @@ def webscrappe_nba_games_data(SEASON):
         team = row['team_abrev']
         url = f"https://www.basketball-reference.com/teams/{team}/{SEASON}/gamelog/"
 
-        if str(requests.get(url)) == '<Response [202]>':
+        print(f"https://www.basketball-reference.com/teams/{team}/{SEASON}/gamelog/")
+        print(str(requests.get(url)))
+
+        if '200' in str(requests.get(url)):
 
             # collect HTML data and create beautiful soup object:
             # collect HTML data
             html = urlopen(url)
                     
             # create beautiful soup object from HTML
-            soup = BeautifulSoup(html, "html.parser" )
+            soup = BeautifulSoup(html, "html.parser")
 
             rows = soup.findAll('tr')[2:]
 
@@ -55,7 +59,6 @@ def webscrappe_nba_games_data(SEASON):
                 games_tmp = games_tmp.dropna()
                 games_tmp['id_season'] = SEASON
                 games_tmp['tm'] = team
-
                 games = pd.concat([games, games_tmp], axis=0)
         
         time.sleep(10)
