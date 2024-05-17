@@ -3,6 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import pandas as pd
 import requests
+import time
 
 def webscrappe_nba_games_data(SEASON):
     
@@ -56,6 +57,8 @@ def webscrappe_nba_games_data(SEASON):
                 games_tmp['tm'] = team
 
                 games = pd.concat([games, games_tmp], axis=0)
+        
+        time.sleep(10)
 
     games = games[[
         'id_season', 'game_nb', 'game_date', 'extdom', 'tm','opp', 'results', 'pts_tm', 'pts_opp',
@@ -122,6 +125,8 @@ def webscrappe_nba_schedule_overtime_data(SEASON):
                 schedule_tmp['tm'] = team
 
                 schedules = pd.concat([schedules, schedule_tmp], axis=0)
+
+        time.sleep(10)
 
     schedules = schedules[['id_season', 'tm', 'game_date', 'time_start', 'extdom', 'opponent', 'w_l', 'overtime', 'pts_tm', 'pts_opp', 'w_tot', 'l_tot', 'streak_w_l']]
             

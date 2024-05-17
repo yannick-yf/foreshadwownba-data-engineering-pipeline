@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "foreshadwownba-data-engineering-pipeline"
+version = "0.1.0"
+description = ""
+authors = ["Yannick Flores <yannick.flores1992@gmail.com>"]
+readme = "README.md"
+packages = [{include = "foreshadwownba_data_engineering_pipeline"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ipykernel = "*"
+pandas = "*"
+beautifulsoup4 = "*"
+lxml = "*"
+requests = "*"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
