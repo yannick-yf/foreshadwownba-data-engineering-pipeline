@@ -23,37 +23,39 @@ def webscrappe_nba_games_data(SEASON):
         team = row['team_abrev']
         url = f"https://www.basketball-reference.com/teams/{team}/{SEASON}/gamelog/"
 
-        # collect HTML data and create beautiful soup object:
-        # collect HTML data
-        html = urlopen(url)
-                
-        # create beautiful soup object from HTML
-        soup = BeautifulSoup(html, "html.parser" )
+        if str(requests.get(url)) == '<Response [202]>':
 
-        rows = soup.findAll('tr')[2:]
+            # collect HTML data and create beautiful soup object:
+            # collect HTML data
+            html = urlopen(url)
+                    
+            # create beautiful soup object from HTML
+            soup = BeautifulSoup(html, "html.parser" )
 
-        rows_data = [[td.getText() for td in rows[i].findAll('td')]
-                            for i in range(len(rows))]
+            rows = soup.findAll('tr')[2:]
 
-        if len(rows_data) != 0:
-            # create the dataframe
-            games_tmp = pd.DataFrame(rows_data)
-            cols = ["game_nb", "game_date", "extdom", "opp", "results",
-                    "pts_tm","pts_opp",
-                    "fg_tm", "fga_tm","fg_prct_tm",
-                    "3p_tm","3pa_tm", "3p_prct_tm","ft_tm","fta_tm","ft_prct_tm",
-                    "orb_tm","trb_tm", "ast_tm","stl_tm","blk_tm" ,"tov_tm","pf_tm",
-                    "nc",
-                    "fg_opp","fga_opp","fg_prct_opp",
-                    "3p_opp", "3pa_opp", "3p_prct_opp", "ft_opp", "fta_opp","ft_prct_opp",
-                    "orb_opp", "trb_opp","ast_opp", "stl_opp", "blk_opp","tov_opp", "pf_opp"]
+            rows_data = [[td.getText() for td in rows[i].findAll('td')]
+                                for i in range(len(rows))]
 
-            games_tmp.columns =  cols
-            games_tmp = games_tmp.dropna()
-            games_tmp['id_season'] = SEASON
-            games_tmp['tm'] = team
+            if len(rows_data) != 0:
+                # create the dataframe
+                games_tmp = pd.DataFrame(rows_data)
+                cols = ["game_nb", "game_date", "extdom", "opp", "results",
+                        "pts_tm","pts_opp",
+                        "fg_tm", "fga_tm","fg_prct_tm",
+                        "3p_tm","3pa_tm", "3p_prct_tm","ft_tm","fta_tm","ft_prct_tm",
+                        "orb_tm","trb_tm", "ast_tm","stl_tm","blk_tm" ,"tov_tm","pf_tm",
+                        "nc",
+                        "fg_opp","fga_opp","fg_prct_opp",
+                        "3p_opp", "3pa_opp", "3p_prct_opp", "ft_opp", "fta_opp","ft_prct_opp",
+                        "orb_opp", "trb_opp","ast_opp", "stl_opp", "blk_opp","tov_opp", "pf_opp"]
 
-            games = games.append(games_tmp)
+                games_tmp.columns =  cols
+                games_tmp = games_tmp.dropna()
+                games_tmp['id_season'] = SEASON
+                games_tmp['tm'] = team
+
+                games = pd.concat([games, games_tmp], axis=0)
 
     games = games[[
         'id_season', 'game_nb', 'game_date', 'extdom', 'tm','opp', 'results', 'pts_tm', 'pts_opp',
@@ -90,7 +92,7 @@ def webscrappe_nba_schedule_overtime_data(SEASON):
         # URL to scrape
         url = f"https://www.basketball-reference.com/teams/{team}/{SEASON}_games.html"
 
-        if str(requests.get(url)) != '<Response [404]>':
+        if str(requests.get(url)) == '<Response [202]>':
 
             # collect HTML data and create beautiful soup object:
             # collect HTML data
@@ -119,7 +121,7 @@ def webscrappe_nba_schedule_overtime_data(SEASON):
                 schedule_tmp['id_season'] = SEASON
                 schedule_tmp['tm'] = team
 
-                schedules = schedules.append(schedule_tmp)
+                schedules = pd.concat([schedules, schedule_tmp], axis=0)
 
     schedules = schedules[['id_season', 'tm', 'game_date', 'time_start', 'extdom', 'opponent', 'w_l', 'overtime', 'pts_tm', 'pts_opp', 'w_tot', 'l_tot', 'streak_w_l']]
             

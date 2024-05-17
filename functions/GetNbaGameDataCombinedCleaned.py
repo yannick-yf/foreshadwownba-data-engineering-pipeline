@@ -9,7 +9,7 @@ def fn_get_seasons_nba_games_data(SEASON_ARRAY):
 
     for season in SEASON_ARRAY:
         NBA_GAMES_DF_tmp = WebScrapNbaGameData.webscrappe_nba_games_data(season)
-        NBA_GAMES_DF = NBA_GAMES_DF.append(NBA_GAMES_DF_tmp)
+        NBA_GAMES_DF = pd.concat([NBA_GAMES_DF, NBA_GAMES_DF_tmp], axis=0)
 
     return NBA_GAMES_DF
 
@@ -19,7 +19,7 @@ def fn_get_seasons_nba_schedules_overtime_data(SEASON_ARRAY):
 
     for season in SEASON_ARRAY:
         NBA_SCHEDULES_DF_tmp = WebScrapNbaGameData.webscrappe_nba_schedule_overtime_data(season)
-        NBA_SCHEDULES_DF = NBA_SCHEDULES_DF.append(NBA_SCHEDULES_DF_tmp)
+        NBA_SCHEDULES_DF = pd.concat([NBA_SCHEDULES_DF, NBA_SCHEDULES_DF_tmp], axis=0)
 
     return NBA_SCHEDULES_DF
 
