@@ -13,6 +13,10 @@ from functions import GetNbaGameDataCombinedCleaned, GetNbaPlayerDataCombinedCle
 
 season_to_pull = list(range(2022, 2024)) # 2022+ 1 to include the 2022 and/or coresponding to the current season usually
 
+#TODO: Create a package for webscarppe
+#TODO: Add log to this pipeline
+#TODO: Use dvc for the data enginerring pipeline
+
 if __name__ == '__main__':
 
     print('----------------------------------------------------------')
@@ -32,25 +36,25 @@ if __name__ == '__main__':
     print(f'NBA Games data pull process, duration: {duration}')
     print('-----------------')
 
-    # #------------------------------------------------------------------
-    # # Schedule and Overtime games - Output of the process is saved in pipeline output
-    # print('Start - NBA Schedules & overtime data pull process')
-    # method_start_time = datetime.datetime.now()
-    # nba_schedules_multi_season_dataset = GetNbaGameDataCombinedCleaned.fn_get_seasons_nba_schedules_overtime_data(season_to_pull)
-    # method_end_time = datetime.datetime.now()
-    # duration = method_end_time - method_start_time
-    # print(f'NBA Schedules & overtime data pull process, duration: {duration}')
-    # print('-----------------')
+    #------------------------------------------------------------------
+    # Schedule and Overtime games - Output of the process is saved in pipeline output
+    print('Start - NBA Schedules & overtime data pull process')
+    method_start_time = datetime.datetime.now()
+    nba_schedules_multi_season_dataset = GetNbaGameDataCombinedCleaned.fn_get_seasons_nba_schedules_overtime_data(season_to_pull)
+    method_end_time = datetime.datetime.now()
+    duration = method_end_time - method_start_time
+    print(f'NBA Schedules & overtime data pull process, duration: {duration}')
+    print('-----------------')
 
-    # #------------------------------------------------------------------
-    # # Cleaning And Consolidation Steps - Part of Engineering process 
-    # print('Start - Cleaned & Combined process')
-    # method_start_time = datetime.datetime.now()
-    # training_dataset = GetNbaGameDataCombinedCleaned.cleaned_and_combined(nba_games_multi_season_dataset, nba_schedules_multi_season_dataset)
-    # method_end_time = datetime.datetime.now()
-    # duration = method_end_time - method_start_time
-    # print(f'Cleaned & Combined process, duration: {duration}')
-    # print('-----------------')
+    #------------------------------------------------------------------
+    # Cleaning And Consolidation Steps - Part of Engineering process 
+    print('Start - Cleaned & Combined process')
+    method_start_time = datetime.datetime.now()
+    training_dataset = GetNbaGameDataCombinedCleaned.cleaned_and_combined(nba_games_multi_season_dataset, nba_schedules_multi_season_dataset)
+    method_end_time = datetime.datetime.now()
+    duration = method_end_time - method_start_time
+    print(f'Cleaned & Combined process, duration: {duration}')
+    print('-----------------')
 
     # #------------------------------------------------------------------
     # # Get NBA players list and attributes data for all the season requested by the user - Output of the process is saved in pipeline output
@@ -108,8 +112,8 @@ if __name__ == '__main__':
     print('Start - Writting All the data to CSV process')
     method_start_time = datetime.datetime.now()
     nba_games_multi_season_dataset.to_csv('./pipeline_output/nba_games_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
-    # nba_schedules_multi_season_dataset.to_csv('./pipeline_output/schedules_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
-    # training_dataset.to_csv('./pipeline_output/final_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
+    nba_schedules_multi_season_dataset.to_csv('./pipeline_output/schedules_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
+    training_dataset.to_csv('./pipeline_output/final_training_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     # nba_list_players_multi_season_dataset.to_csv('./pipeline_output/nba_list_players_multi_season_dataset_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     # nba_id_webscrappe_players.to_csv('./pipeline_output/nba_id_webscrappe_players_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)
     # nba_players_boxscores.to_csv('./pipeline_output/nba_players_boxscores_'+ datetime.datetime.today().strftime('%Y-%m-%d') + '.csv' , index = False)

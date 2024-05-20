@@ -25,9 +25,6 @@ def webscrappe_nba_games_data(SEASON):
         team = row['team_abrev']
         url = f"https://www.basketball-reference.com/teams/{team}/{SEASON}/gamelog/"
 
-        print(f"https://www.basketball-reference.com/teams/{team}/{SEASON}/gamelog/")
-        print(str(requests.get(url)))
-
         if '200' in str(requests.get(url)):
 
             # collect HTML data and create beautiful soup object:
@@ -61,7 +58,7 @@ def webscrappe_nba_games_data(SEASON):
                 games_tmp['tm'] = team
                 games = pd.concat([games, games_tmp], axis=0)
         
-        time.sleep(10)
+        time.sleep(5)
 
     games = games[[
         'id_season', 'game_nb', 'game_date', 'extdom', 'tm','opp', 'results', 'pts_tm', 'pts_opp',
@@ -98,7 +95,7 @@ def webscrappe_nba_schedule_overtime_data(SEASON):
         # URL to scrape
         url = f"https://www.basketball-reference.com/teams/{team}/{SEASON}_games.html"
 
-        if str(requests.get(url)) == '<Response [202]>':
+        if '200' in str(requests.get(url)):
 
             # collect HTML data and create beautiful soup object:
             # collect HTML data
@@ -129,7 +126,7 @@ def webscrappe_nba_schedule_overtime_data(SEASON):
 
                 schedules = pd.concat([schedules, schedule_tmp], axis=0)
 
-        time.sleep(10)
+        time.sleep(5)
 
     schedules = schedules[['id_season', 'tm', 'game_date', 'time_start', 'extdom', 'opponent', 'w_l', 'overtime', 'pts_tm', 'pts_opp', 'w_tot', 'l_tot', 'streak_w_l']]
             

@@ -9,7 +9,7 @@ import numpy as np
 from urllib.error import HTTPError
 import re
 import lxml.html as lh
-
+import time
 
 def ScrapePage(url):
     r = requests.get(url)
@@ -59,10 +59,12 @@ def GetSalaries(year):
     df.append(pd.DataFrame(data))
     
     #Get Salary Data
-    for k in range(2,page_total + 1):
+    for k in range(2, page_total + 1):
         url = 'http://www.espn.com/nba/salaries/_/year/' + year + '/page/' + str(k)
         Dict = ScrapePage(url)[0]
         df.append(pd.DataFrame(Dict))
+
+        time.sleep(5)
 
     df = pd.concat(df)
     df['year'] = int(year)

@@ -12,7 +12,7 @@ def fn_get_nba_list_players_and_attributes_data(SEASON_ARRAY):
 
     for season in SEASON_ARRAY:
         NBA_PLAYERS_GAMES_DF_tmp = WebScrapNbaPlayersListAndAttributes.webscrappe_nba_list_players_and_attributes_data(season)
-        NBA_PLAYERS_GAMES_DF = NBA_PLAYERS_GAMES_DF.append(NBA_PLAYERS_GAMES_DF_tmp)
+        NBA_PLAYERS_GAMES_DF = pd.concat([NBA_PLAYERS_GAMES_DF, NBA_PLAYERS_GAMES_DF_tmp], axis=0)
 
     return NBA_PLAYERS_GAMES_DF
 
@@ -35,7 +35,7 @@ def fn_get_nba_players_salary_data(SEASON_ARRAY):
     for season in SEASON_ARRAY:
         print(season)
         NBA_PLAYERS_SALARY_DF_tmp = WebScrapNbaSalary.GetSalaries(str(season))
-        NBA_PLAYERS_SALARY_DF = NBA_PLAYERS_SALARY_DF.append(NBA_PLAYERS_SALARY_DF_tmp)
+        NBA_PLAYERS_SALARY_DF = pd.concat([NBA_PLAYERS_SALARY_DF, NBA_PLAYERS_SALARY_DF_tmp], axis=0)
 
     return NBA_PLAYERS_SALARY_DF
 

@@ -6,7 +6,7 @@ import requests
 import sys
 import numpy as np
 from urllib.error import HTTPError
-
+import time
 
 #------------------------------------------------------------------------------------------------------------
 # Get boxscores fo all the players in the flat files saved
@@ -65,16 +65,17 @@ def webscrappe_nba_players_boxscores_data(nba_id_webscrappe_players):
                     players_tmp['id_season'] = id_season
                     players_tmp['player_name'] = player_name
 
-                    players = players.append(players_tmp)
+                    players = pd.concat([players, players_tmp], axis=0)
 
             except:
-                players_to_add_manually = players_to_add_manually.append(row)
+                players_to_add_manually = pd.concat([players_to_add_manually, row], axis=0)
                 print("An exception occurred")
 
         except HTTPError as http_error:
-            # print(row)
-            players_to_add_manually = players_to_add_manually.append(row)
+            players_to_add_manually = pd.concat([players_to_add_manually, row], axis=0)
             continue
+
+        time.sleep(5)
 
     players = players[[
         'id_season','player_name',

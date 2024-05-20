@@ -6,7 +6,7 @@ import requests
 import sys
 import numpy as np
 from urllib.error import HTTPError
-
+import time
 
 #------------------------------------------------------------------------------------------------------------
 # Get list of players and attribute per seasons
@@ -66,10 +66,12 @@ def webscrappe_nba_list_players_and_attributes_data(SEASON):
                 players_tmp['id_season'] = SEASON
                 players_tmp['tm'] = team
 
-                players = players.append(players_tmp)
+                players = pd.concat([players, players_tmp], axis=0)
 
         except HTTPError as http_error:
             continue
+
+        time.sleep(5)
 
     players = players[[
         'id_season', 
