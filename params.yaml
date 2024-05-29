@@ -1,0 +1,15 @@
+
+base:
+  log_level: INFO
+
+gamelog_data_acquisition:
+  season: 2010
+  team: all
+  data_type: gamelog
+  output_folder: pipeline_output/gamelog
+
+schedule_data_acquisition:
+  season: 2010
+  team: all
+  data_type: schedule
+  output_folder: pipeline_output/schedule

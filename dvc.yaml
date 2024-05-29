@@ -1,0 +1,38 @@
+vars:
+  - project:
+      aws: cads-it
+      directory: .
+stages:
+  gamelog_data_acquisition:
+    cmd: python3 -m src.stages.gamelog_data_acquisition --config=params.yaml
+    deps:
+      - src/stages/gamelog_data_acquisition.py
+    params:
+      - base
+      - gamelog_data_acquisition
+    # outs:
+    #   - pipeline_output/gamelog/
+  schedule_data_acquisition:
+    cmd: python3 -m src.stages.schedule_data_acquisition --config=params.yaml
+    deps:
+      - src/stages/schedule_data_acquisition.py
+    params:
+      - base
+      - schedule_data_acquisition
+    # outs:
+    #   - pipeline_output/schedule/
+  # writte_final_output_to_s3:
+  #   cmd:
+  #     - >-
+  #       aws s3 cp 
+  #       ./data_pipeline/final/
+  #       s3://cad-yannick/syncropshield-data-pipeline-output/datasets/ --profile=cads-it --recursive
+  #     - >-
+  #       aws s3 cp 
+  #       ./reports/eda/
+  #       s3://cad-yannick/syncropshield-data-pipeline-output/eda_report/ --profile=cads-it --recursive
+  #   deps:
+  #     - data_pipeline/final/
+  #     - reports/eda/
+
+
