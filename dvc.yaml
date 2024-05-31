@@ -19,6 +19,21 @@ stages:
     params:
       - base
       - schedule_data_acquisition
+  player_attributes_data_acquisition:
+    cmd: python3 -m src.stages.player_attributes_data_acquisition --config=params.yaml
+    deps:
+      - src/stages/player_attributes_data_acquisition.py
+    params:
+      - base
+      - player_attributes_data_acquisition
+  player_salary_data_acquisition:
+    cmd: python3 -m src.stages.player_salary_data_acquisition --config=params.yaml
+    deps:
+      - src/stages/player_salary_data_acquisition.py
+    params:
+      - base
+      - player_salary_data_acquisition
+
     # outs:
     #   - pipeline_output/schedule/
   # writte_final_output_to_s3:

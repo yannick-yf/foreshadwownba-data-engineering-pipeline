@@ -13,3 +13,14 @@ schedule_data_acquisition:
   team: all
   data_type: schedule
   output_folder: pipeline_output/schedule
+
+player_attributes_data_acquisition:
+  season: 2024
+  team: all
+  data_type: player_attributes
+  output_folder: pipeline_output/player_attributes
+
+player_salary_data_acquisition:
+  season: 2024
+  data_type: player_salary
+  output_folder: pipeline_output/player_salary

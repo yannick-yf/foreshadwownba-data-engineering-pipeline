@@ -302,13 +302,13 @@ tests-no-zope = ["attrs[tests-mypy]", "cloudpickle", "hypothesis", "pympler", "p
 
 [[package]]
 name = "basketball-reference-webscrapper"
-version = "0.2.0"
+version = "0.3.0"
 description = "Python package for Basketball Reference that gathers data by scraping the website"
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "basketball_reference_webscrapper-0.2.0-py3-none-any.whl", hash = "sha256:e2f12bb9bac054da2859899338de72ff2917982d13f564f54131a5781188a6b0"},
-    {file = "basketball_reference_webscrapper-0.2.0.tar.gz", hash = "sha256:384aa3fe6e6daa14eb50929aa69f32413de79f568c8feb27374ed2c8e2ef62d5"},
+    {file = "basketball_reference_webscrapper-0.3.0-py3-none-any.whl", hash = "sha256:84776f9a7afc0b6c6650e227778c11e535460389fce93a53229293e3448f5382"},
+    {file = "basketball_reference_webscrapper-0.3.0.tar.gz", hash = "sha256:4b0adb7bedab0e7a39a9636e30f2c790b337ee3fc08b32ba0daf855275b18ae3"},
 ]
 
 [package.dependencies]
@@ -3263,13 +3263,13 @@ cffi = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [[package]]
 name = "requests"
-version = "2.32.2"
+version = "2.32.3"
 description = "Python HTTP for Humans."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "requests-2.32.2-py3-none-any.whl", hash = "sha256:fc06670dd0ed212426dfeb94fc1b983d917c4f9847c863f313c9dfaaffb7c23c"},
-    {file = "requests-2.32.2.tar.gz", hash = "sha256:dd951ff5ecf3e3b3aa26b40703ba77495dab41da839ae72ef3c8e5d8e2433289"},
+    {file = "requests-2.32.3-py3-none-any.whl", hash = "sha256:70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6"},
+    {file = "requests-2.32.3.tar.gz", hash = "sha256:55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760"},
 ]
 
 [package.dependencies]
@@ -3981,4 +3981,4 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "2e3732598ebcfd78c831a9f9ccaa2d1415ab7e87fa6185e2bf1466572f96d98f"
+content-hash = "e3b19025bebedeef59c0e556270228f89c0d1b018271180934810fddb513e78b"

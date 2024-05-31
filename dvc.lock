@@ -32,3 +32,34 @@ stages:
           team: all
           data_type: schedule
           output_folder: pipeline_output/schedule
+  player_attributes_data_acquisition:
+    cmd: python3 -m src.stages.player_attributes_data_acquisition --config=params.yaml
+    deps:
+    - path: src/stages/player_attributes_data_acquisition.py
+      hash: md5
+      md5: 81b9301da1160232a65dd76d1a09974d
+      size: 2041
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_attributes_data_acquisition:
+          season: 2024
+          team: all
+          data_type: player_attributes
+          output_folder: pipeline_output/player_attributes
+  player_salary_data_acquisition:
+    cmd: python3 -m src.stages.player_salary_data_acquisition --config=params.yaml
+    deps:
+    - path: src/stages/player_salary_data_acquisition.py
+      hash: md5
+      md5: 0b766b33e3db73b61884252e9df77417
+      size: 4422
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_salary_data_acquisition:
+          season: 2024
+          data_type: player_salary
+          output_folder: pipeline_output/player_salary
