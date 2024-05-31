@@ -3,7 +3,7 @@
 #--------------------------------------------------------------------------------------------
 # Aim of this script is to webscrap NBA games and schedules for multiple season and save it
 
-
+#TODO: https://fastercapital.com/content/Pipeline-Validation--How-to-Validate-Your-Pipeline-Development-Data-and-Code-using-Pytest-and-DVC.html#Overview-of-Pytest-and-DVC
 import sys
 sys.path.append(".")
 

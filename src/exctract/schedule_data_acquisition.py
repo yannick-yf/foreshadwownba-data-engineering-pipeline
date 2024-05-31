@@ -20,7 +20,7 @@ def schedule_data_acquisition(config_path: Text) -> pd.DataFrame:
         config = yaml.safe_load(conf_file)
 
     logger = get_logger(
-        'GAMELOG_DATA_ACQUISITION', 
+        'SCHEDULE_DATA_ACQUISITION', 
         log_level=config['base']['log_level'])
     
     schedule_df = WebScrapBasketballReference(

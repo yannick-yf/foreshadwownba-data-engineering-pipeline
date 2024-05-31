@@ -4,35 +4,42 @@ vars:
       directory: .
 stages:
   gamelog_data_acquisition:
-    cmd: python3 -m src.stages.gamelog_data_acquisition --config=params.yaml
+    cmd: python3 -m src.exctract.gamelog_data_acquisition --config=params.yaml
     deps:
-      - src/stages/gamelog_data_acquisition.py
+      - src/exctract/gamelog_data_acquisition.py
     params:
       - base
       - gamelog_data_acquisition
     # outs:
     #   - pipeline_output/gamelog/
   schedule_data_acquisition:
-    cmd: python3 -m src.stages.schedule_data_acquisition --config=params.yaml
+    cmd: python3 -m src.exctract.schedule_data_acquisition --config=params.yaml
     deps:
-      - src/stages/schedule_data_acquisition.py
+      - src/exctract/schedule_data_acquisition.py
     params:
       - base
       - schedule_data_acquisition
   player_attributes_data_acquisition:
-    cmd: python3 -m src.stages.player_attributes_data_acquisition --config=params.yaml
+    cmd: python3 -m src.exctract.player_attributes_data_acquisition --config=params.yaml
     deps:
-      - src/stages/player_attributes_data_acquisition.py
+      - src/exctract/player_attributes_data_acquisition.py
     params:
       - base
       - player_attributes_data_acquisition
   player_salary_data_acquisition:
-    cmd: python3 -m src.stages.player_salary_data_acquisition --config=params.yaml
+    cmd: python3 -m src.exctract.player_salary_data_acquisition --config=params.yaml
     deps:
-      - src/stages/player_salary_data_acquisition.py
+      - src/exctract/player_salary_data_acquisition.py
     params:
       - base
       - player_salary_data_acquisition
+  gamelog_schedule_unification:
+    cmd: python3 -m src.transform.gamelog_schedule_unification --config=params.yaml
+    deps:
+      - src/transform/gamelog_schedule_unification.py
+    params:
+      - base
+      - gamelog_schedule_unification
 
     # outs:
     #   - pipeline_output/schedule/

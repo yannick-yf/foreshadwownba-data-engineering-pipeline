@@ -24,3 +24,7 @@ player_salary_data_acquisition:
   season: 2024
   data_type: player_salary
   output_folder: pipeline_output/player_salary
+
+gamelog_schedule_unification:
+  data_path: pipeline_output/final/
+  file_name: nba_games_training_dataset
