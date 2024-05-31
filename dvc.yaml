@@ -40,7 +40,13 @@ stages:
     params:
       - base
       - gamelog_schedule_unification
-
+  player_attributes_salaries_unification:
+    cmd: python3 -m src.transform.player_attributes_salaries_unification --config=params.yaml
+    deps:
+      - src/transform/player_attributes_salaries_unification.py
+    params:
+      - base
+      - player_attributes_salaries_unification
     # outs:
     #   - pipeline_output/schedule/
   # writte_final_output_to_s3:

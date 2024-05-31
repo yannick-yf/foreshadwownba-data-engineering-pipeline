@@ -77,3 +77,17 @@ stages:
         gamelog_schedule_unification:
           data_path: pipeline_output/final/
           file_name: nba_games_training_dataset
+  player_attributes_salaries_unification:
+    cmd: python3 -m src.transform.player_attributes_salaries_unification --config=params.yaml
+    deps:
+    - path: src/transform/player_attributes_salaries_unification.py
+      hash: md5
+      md5: db69057207ecb219595a685e13478e4f
+      size: 4653
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_attributes_salaries_unification:
+          data_path: pipeline_output/final/
+          file_name: player_attributes_salaries_dataset
