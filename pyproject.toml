@@ -13,7 +13,7 @@ pandas = "*"
 beautifulsoup4 = "*"
 lxml = "*"
 requests = "*"
-basketball-reference-webscrapper = "0.3.0"
+basketball-reference-webscrapper = "0.4.1"
 dvc = {extras = ["s3"], version = "^3.38.1"}
 
 [tool.poetry.dev-dependencies]

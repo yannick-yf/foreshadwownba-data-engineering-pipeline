@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/exctract/gamelog_data_acquisition.py
       hash: md5
-      md5: 5de16521cd47e29f4711f5c5bdb65e6e
-      size: 1921
+      md5: d0b1ae13dc785caf1d8afcf037fe084f
+      size: 1851
     params:
       params.yaml:
         base:
@@ -15,14 +15,14 @@ stages:
           season: 2010
           team: all
           data_type: gamelog
-          output_folder: pipeline_output/gamelog
+          output_folder: pipeline_output/gamelog/
   schedule_data_acquisition:
     cmd: python3 -m src.exctract.schedule_data_acquisition --config=params.yaml
     deps:
     - path: src/exctract/schedule_data_acquisition.py
       hash: md5
-      md5: 58b4c92f18720dda315ecd83b9dba405
-      size: 1933
+      md5: 1ae4f6faeb258a4154c91e28c5f61be3
+      size: 1864
     params:
       params.yaml:
         base:
@@ -31,14 +31,14 @@ stages:
           season: 2010
           team: all
           data_type: schedule
-          output_folder: pipeline_output/schedule
+          output_folder: pipeline_output/schedule/
   player_attributes_data_acquisition:
     cmd: python3 -m src.exctract.player_attributes_data_acquisition --config=params.yaml
     deps:
     - path: src/exctract/player_attributes_data_acquisition.py
       hash: md5
-      md5: ed2942ad0b4297e24c26f326720eff4a
-      size: 2051
+      md5: 452eaa17e5b0b289505a959caa50383a
+      size: 1981
     params:
       params.yaml:
         base:
@@ -47,14 +47,14 @@ stages:
           season: 2024
           team: all
           data_type: player_attributes
-          output_folder: pipeline_output/player_attributes
+          output_folder: pipeline_output/player_attributes/
   player_salary_data_acquisition:
     cmd: python3 -m src.exctract.player_salary_data_acquisition --config=params.yaml
     deps:
     - path: src/exctract/player_salary_data_acquisition.py
       hash: md5
-      md5: 0b766b33e3db73b61884252e9df77417
-      size: 4422
+      md5: e77a6d3f77e75c57386867cd06796e2a
+      size: 4407
     params:
       params.yaml:
         base:
@@ -62,14 +62,16 @@ stages:
         player_salary_data_acquisition:
           season: 2024
           data_type: player_salary
-          output_folder: pipeline_output/player_salary
+          output_folder: pipeline_output/player_salary/
   gamelog_schedule_unification:
-    cmd: python3 -m src.transform.gamelog_schedule_unification --config=params.yaml
+    cmd:
+    - python3 -m src.transform.gamelog_schedule_unification  --data-path ./pipeline_output/final/
+      --file-name nba_games_training_dataset
     deps:
     - path: src/transform/gamelog_schedule_unification.py
       hash: md5
-      md5: 550c620fa6c3f1f88d2ee12387d881aa
-      size: 2363
+      md5: c03f649f960bcacc397a61e0033ca815
+      size: 3586
     params:
       params.yaml:
         base:
@@ -82,8 +84,8 @@ stages:
     deps:
     - path: src/transform/player_attributes_salaries_unification.py
       hash: md5
-      md5: db69057207ecb219595a685e13478e4f
-      size: 4653
+      md5: 05a726963c04c1b4e55c5125f58e44be
+      size: 5163
     params:
       params.yaml:
         base:

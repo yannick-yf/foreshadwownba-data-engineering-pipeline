@@ -1,6 +1,5 @@
 vars:
   - project:
-      aws: cads-it
       directory: .
 stages:
   gamelog_data_acquisition:
@@ -34,7 +33,11 @@ stages:
       - base
       - player_salary_data_acquisition
   gamelog_schedule_unification:
-    cmd: python3 -m src.transform.gamelog_schedule_unification --config=params.yaml
+    cmd: 
+    - >- 
+      python3 -m src.transform.gamelog_schedule_unification 
+      --data-path ${project.directory}/${gamelog_schedule_unification.data_path}
+      --file-name ${gamelog_schedule_unification.file_name}
     deps:
       - src/transform/gamelog_schedule_unification.py
     params:

@@ -4,6 +4,7 @@ import logging
 from typing import Union
 import sys
 
+
 def get_console_handler() -> logging.StreamHandler:
     """Get console handler.
     Returns:
@@ -11,13 +12,17 @@ def get_console_handler() -> logging.StreamHandler:
     """
 
     console_handler = logging.StreamHandler(sys.stdout)
-    formatter = logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(message)s")
+    formatter = logging.Formatter(
+        "%(asctime)s — %(name)s — %(levelname)s — %(message)s"
+    )
     console_handler.setFormatter(formatter)
 
     return console_handler
 
 
-def get_logger(name: str = __name__, log_level: Union[str, int] = logging.DEBUG) -> logging.Logger:
+def get_logger(
+    name: str = __name__, log_level: Union[str, int] = logging.DEBUG
+) -> logging.Logger:
     """Get logger.
     Args:
         name {Text}: logger name
