@@ -26,7 +26,8 @@ stages:
       - base
       - player_attributes_data_acquisition
   player_salary_data_acquisition:
-    cmd: python3 -m src.exctract.player_salary_data_acquisition --config=params.yaml
+    cmd: 
+    - python3 -m src.exctract.player_salary_data_acquisition  --config=params.yaml
     deps:
       - src/exctract/player_salary_data_acquisition.py
     params:
@@ -48,7 +49,18 @@ stages:
       - base
       - gamelog_schedule_unification
   player_attributes_salaries_unification:
-    cmd: python3 -m src.transform.player_attributes_salaries_unification --config=params.yaml
+    cmd: 
+    - >- 
+      python3 -m src.transform.player_attributes_salaries_unification
+      --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
+      --schedule-name-pattern ${schedule_data_acquisition.data_type}
+      --players-attributes-data-path ${project.directory}/${player_attributes_data_acquisition.output_folder}
+      --players-attributes-name-pattern ${player_attributes_data_acquisition.data_type}
+      --players-salary-data-path ${project.directory}/${player_salary_data_acquisition.output_folder}
+      --players-salary-name-pattern ${player_salary_data_acquisition.data_type}
+      --output-dest-file-path ${project.directory}/${player_attributes_salaries_unification.data_path}
+      --output-dest-file-name ${player_attributes_salaries_unification.file_name}
+    
     deps:
       - src/transform/player_attributes_salaries_unification.py
     params:

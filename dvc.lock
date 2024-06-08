@@ -49,7 +49,8 @@ stages:
           data_type: player_attributes
           output_folder: pipeline_output/player_attributes/
   player_salary_data_acquisition:
-    cmd: python3 -m src.exctract.player_salary_data_acquisition --config=params.yaml
+    cmd:
+    - python3 -m src.exctract.player_salary_data_acquisition  --config=params.yaml
     deps:
     - path: src/exctract/player_salary_data_acquisition.py
       hash: md5
@@ -72,8 +73,8 @@ stages:
     deps:
     - path: src/transform/gamelog_schedule_unification.py
       hash: md5
-      md5: 4915967f5a3f6dc2ef3690cc4b048ce8
-      size: 5288
+      md5: 71d915405e286e7220457ba3129a94b2
+      size: 5278
     params:
       params.yaml:
         base:
