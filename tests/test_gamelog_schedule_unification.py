@@ -1,28 +1,40 @@
 from unittest import TestCase
-import argparse
-import pandas as pd
 import os
 from src.transform import gamelog_schedule_unification
 import shutil
-import glob
 
 class TestFeatureSelection(TestCase):
     def setUp(self) -> None:
-        self.data_path = './tests/test_output/'
-        self.file_name = 'test'
+        self.unified_file_path = './tests/test_output/'
+        self.unified_file_name = 'test'
+        self.gamelog_data_path = 'pipeline_output/gamelog/'
+        self.gamelog_name_pattern = 'gamelog'
+        self.schedule_data_path = 'pipeline_output/schedule/'
+        self.schedule_name_pattern = 'schedule'
 
-    def test_gamelog_schedule_unification(self):
+    def test_gamelog_schedule_unification_with_arguments(self):
 
         # Check if the file exists before attempting to delete it
-        if os.path.exists(self.data_path + self.file_name + '.csv'):
-            shutil.rmtree(self.data_path)
-            print(f"The file {self.data_path + self.file_name + '.csv'} has been deleted.")
+        if os.path.exists(self.unified_file_path + self.unified_file_name + '.csv'):
+            shutil.rmtree(self.unified_file_path)
+            print(f"The file {self.unified_file_path + self.unified_file_name + '.csv'} has been deleted.")
         else:
-            print(f"The file {self.data_path + self.file_name + '.csv'} does not exist.")
+            print(f"The file {self.unified_file_path + self.unified_file_name + '.csv'} does not exist.")
 
         gamelog_schedule_unification.gamelog_schedule_unification(
-                data_path=self.data_path,
-                file_name=self.file_name,
+                unified_file_path=self.unified_file_path,
+                unified_file_name=self.unified_file_name,
+                gamelog_data_path=self.gamelog_data_path,
+                gamelog_name_pattern=self.gamelog_name_pattern,
+                schedule_data_path=self.schedule_data_path,
+                schedule_name_pattern=self.schedule_name_pattern
         )
 
-        assert os.path.exists(self.data_path + self.file_name + '.csv') is True
+        # gamelog_data_path: Path =' pipeline_output/gamelog/',
+        # gamelog_name_pattern: str = 'gamelog',
+        # schedule_data_path: Path =' pipeline_output/schedule/',
+        # schedule_name_pattern: str = 'schedule',
+        # unified_file_path: Path ='pipeline_output/final/',
+        # unified_file_name: str = 'nba_games_training_dataset'
+
+        assert os.path.exists(self.unified_file_path + self.unified_file_name + '.csv') is True

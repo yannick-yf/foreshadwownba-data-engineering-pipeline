@@ -36,8 +36,12 @@ stages:
     cmd: 
     - >- 
       python3 -m src.transform.gamelog_schedule_unification 
-      --data-path ${project.directory}/${gamelog_schedule_unification.data_path}
-      --file-name ${gamelog_schedule_unification.file_name}
+      --gamelog-data-path ${project.directory}/${gamelog_data_acquisition.output_folder}
+      --gamelog-name-pattern ${gamelog_data_acquisition.data_type}
+      --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
+      --schedule-name-pattern ${schedule_data_acquisition.data_type}
+      --unified-file-path ${project.directory}/${gamelog_schedule_unification.data_path}
+      --unified-file-name ${gamelog_schedule_unification.file_name}
     deps:
       - src/transform/gamelog_schedule_unification.py
     params:

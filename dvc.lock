@@ -65,13 +65,15 @@ stages:
           output_folder: pipeline_output/player_salary/
   gamelog_schedule_unification:
     cmd:
-    - python3 -m src.transform.gamelog_schedule_unification  --data-path ./pipeline_output/final/
-      --file-name nba_games_training_dataset
+    - python3 -m src.transform.gamelog_schedule_unification  --gamelog-data-path ./pipeline_output/gamelog/
+      --gamelog-name-pattern gamelog --schedule-data-path ./pipeline_output/schedule/
+      --schedule-name-pattern schedule --unified-file-path ./pipeline_output/final/
+      --unified-file-name nba_games_training_dataset
     deps:
     - path: src/transform/gamelog_schedule_unification.py
       hash: md5
-      md5: c03f649f960bcacc397a61e0033ca815
-      size: 3586
+      md5: 4915967f5a3f6dc2ef3690cc4b048ce8
+      size: 5288
     params:
       params.yaml:
         base:

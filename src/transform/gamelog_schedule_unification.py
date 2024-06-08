@@ -14,15 +14,23 @@ logger = get_logger(
 )
 
 def gamelog_schedule_unification(
-        data_path: Path ='pipeline_output/final/',
-        file_name: str = 'nba_games_training_dataset'
-        ) -> pd.DataFrame:
+        gamelog_data_path: Path ='pipeline_output/gamelog/',
+        gamelog_name_pattern: str = 'gamelog',
+        schedule_data_path: Path ='pipeline_output/schedule/',
+        schedule_name_pattern: str = 'schedule',
+        unified_file_path: Path ='pipeline_output/final/',
+        unified_file_name: str = 'nba_games_training_dataset'
+        ) -> None:
     """
     Unification of gamelogs and schdules dataframes.
 
     Args:
-        data_path (Path): Path where to save the unified dataframe.
-        file_name (str): Name of the unfied dataframe
+        gamelog_data_path: Path where to read the gamelog dataframe.
+        gamelog_name_pattern (str): gamelog name pattern to read mutliple season gamelog
+        schedule_data_path: Path where to read the schedule dataframe.
+        schedule_name_pattern (str): schedule name pattern to read mutliple season schedule
+        unified_file_path (Path): Path where to save the unified dataframe.
+        unified_file_name (str): Name of the unfied dataframe
     """
 
     # ------------------------------------------
@@ -31,13 +39,13 @@ def gamelog_schedule_unification(
     gamelog_df = pd.concat(
         map(
             pd.read_csv,
-            glob.glob(os.path.join("pipeline_output/gamelog/", "gamelog_*.csv")),
+            glob.glob(os.path.join(gamelog_data_path, gamelog_name_pattern +  "_*.csv")),
         )
     )
     schedule_df = pd.concat(
         map(
             pd.read_csv,
-            glob.glob(os.path.join("pipeline_output/schedule/", "schedule_*.csv")),
+            glob.glob(os.path.join(schedule_data_path, schedule_name_pattern +  "_*.csv")),
         )
     )
 
@@ -73,14 +81,11 @@ def gamelog_schedule_unification(
     # ------------------------------------------
     # Saving final training dataset
 
-    data_path = data_path
-    file_name = file_name
-
-    isExist = os.path.exists(data_path)
+    isExist = os.path.exists(unified_file_path)
     if not isExist:
-        os.makedirs(data_path)
+        os.makedirs(unified_file_path)
 
-    name_and_path_file = str(data_path) + file_name + ".csv"
+    name_and_path_file = str(unified_file_path) + unified_file_name + ".csv"
 
     nba_games_training_dataset.to_csv(name_and_path_file, index=True)
 
@@ -104,25 +109,58 @@ def get_args():
 
     args, _ = parser.parse_known_args()
     params = yaml.safe_load(args.params_file.open())
+
     gamelog_schedule_unification_params = params["gamelog_schedule_unification"]
 
     parser.add_argument(
-        "--data-path",
-        dest="data_path",
+        "--unified-file-path",
+        dest="unified_file_path",
         type=Path,
         default=gamelog_schedule_unification_params["data_path"],
     )
 
     parser.add_argument(
-        "--file-name",
-        dest="file_name",
+        "--unified-file-name",
+        dest="unified_file_name",
         type=str,
         default=gamelog_schedule_unification_params["file_name"],
     )
 
+    gamelog_data_acquisition = params["gamelog_data_acquisition"]
+
+    parser.add_argument(
+        "--gamelog-data-path",
+        dest="gamelog_data_path",
+        type=Path,
+        default=gamelog_data_acquisition["output_folder"],
+    )
+
+    parser.add_argument(
+        "--gamelog-name-pattern",
+        dest="gamelog_name_pattern",
+        type=str,
+        default=gamelog_data_acquisition["data_type"],
+    )
+
+    schedule_data_acquisition = params["schedule_data_acquisition"]
+
+    parser.add_argument(
+        "--schedule-data-path",
+        dest="schedule_data_path",
+        type=Path,
+        default=schedule_data_acquisition["output_folder"],
+    )
+
+    parser.add_argument(
+        "--schedule-name-pattern",
+        dest="schedule_name_pattern",
+        type=str,
+        default=schedule_data_acquisition["data_type"],
+    )
+
     args = parser.parse_args()
 
-    args.data_path.parent.mkdir(
+    args.unified_file_path.parent.mkdir(
         parents=True, 
         exist_ok=True)
 
@@ -133,8 +171,12 @@ def main():
     args = get_args()
 
     gamelog_schedule_unification(
-        data_path=args.data_path,
-        file_name=args.file_name,
+        gamelog_data_path=args.gamelog_data_path,
+        gamelog_name_pattern=args.gamelog_name_pattern,
+        schedule_data_path=args.schedule_data_path,
+        schedule_name_pattern=args.schedule_name_pattern,
+        unified_file_path=args.unified_file_path,
+        unified_file_name=args.unified_file_name
     )
 
 if __name__ == "__main__":
