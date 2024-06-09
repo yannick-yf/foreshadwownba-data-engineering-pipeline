@@ -18,10 +18,10 @@ logger = get_logger(
 def player_attributes_salaries_unification(
         schedule_data_path: Path ='pipeline_output/schedule/',
         schedule_name_pattern: str = 'schedule',
-        players_attributes_data_path: Path ='pipeline_output/player_attributes/',
-        players_attributes_name_pattern: str = 'player_attributes',
-        players_salary_data_path: Path ='pipeline_output/player_salary/',
-        players_salary_name_pattern: str = 'player_salary',
+        player_attributes_data_path: Path ='pipeline_output/player_attributes/',
+        player_attributes_name_pattern: str = 'player_attributes',
+        player_salary_data_path: Path ='pipeline_output/player_salary/',
+        player_salary_name_pattern: str = 'player_salary',
         output_dest_file_path: Path ='pipeline_output/final/',
         output_file_name: str = 'player_attributes_salaries_dataset'
         ) -> None:
@@ -31,10 +31,10 @@ def player_attributes_salaries_unification(
     Args:
         schedule_data_path: Path where to read the schedule dataframe.
         schedule_name_pattern (str):  schedule name pattern to read mutliple files
-        players_attributes_data_path (Path): Path where to read the player attributs dataframe.
-        players_attributes_name_pattern (str): player_attributes name pattern to read mutliple files
-        players_salary_data_path (Path): Path where to read the gamelog dataframe.
-        players_salary_name_pattern (str):  player_salary name pattern to read mutliple files
+        player_attributes_data_path (Path): Path where to read the player attributs dataframe.
+        player_attributes_name_pattern (str): player_attributes name pattern to read mutliple files
+        player_salary_data_path (Path): Path where to read the gamelog dataframe.
+        player_salary_name_pattern (str):  player_salary name pattern to read mutliple files
         output_dest_file_path (Path): Path where to save the final processed dataframe.
         output_file_name (str): Name of the final processed dataframe
     """
@@ -51,13 +51,13 @@ def player_attributes_salaries_unification(
     players_attributes_df = pd.concat(
         map(
             pd.read_csv,
-            glob.glob(os.path.join(players_attributes_data_path, players_attributes_name_pattern +  "_*.csv")),
+            glob.glob(os.path.join(player_attributes_data_path, player_attributes_name_pattern +  "_*.csv")),
         )
     )
     players_salary_df = pd.concat(
         map(
             pd.read_csv,
-            glob.glob(os.path.join(players_salary_data_path, players_salary_name_pattern +  "_*.csv")),
+            glob.glob(os.path.join(player_salary_data_path, player_salary_name_pattern +  "_*.csv")),
         )
     )
 
@@ -96,7 +96,7 @@ def player_attributes_salaries_unification(
     )
 
     gb = schedule_df.groupby(["id_season"])
-    min_date_season = gb.agg({"game_date": np.min}).reset_index()
+    min_date_season = gb.agg({"game_date": 'min'}).reset_index()
 
     players_attributes_df = pd.merge(
         players_attributes_df,
@@ -170,7 +170,7 @@ def player_attributes_salaries_unification(
     if not isExist:
         os.makedirs(output_dest_file_path)
 
-    name_and_path_file = output_dest_file_path + output_file_name + ".csv"
+    name_and_path_file = str(output_dest_file_path) + output_file_name + ".csv"
 
     player_info.to_csv(name_and_path_file, index=True)
 
@@ -205,8 +205,8 @@ def get_args():
     )
 
     parser.add_argument(
-        "--output-dest-file-name",
-        dest="output_dest_file_name",
+        "--output-file-name",
+        dest="output_file_name",
         type=str,
         default=player_attributes_salaries_unification["file_name"],
     )
@@ -261,7 +261,7 @@ def get_args():
 
     args = parser.parse_args()
 
-    args.unified_file_path.parent.mkdir(
+    args.output_dest_file_path.parent.mkdir(
         parents=True, 
         exist_ok=True)
 
@@ -274,10 +274,10 @@ def main():
     player_attributes_salaries_unification(
         schedule_data_path=args.schedule_data_path,
         schedule_name_pattern=args.schedule_name_pattern,
-        players_attributes_data_path = args.players_attributes_data_path,
-        players_attributes_name_pattern=args.players_attributes_name_pattern,
-        players_salary_data_path=args.players_salary_data_path,
-        players_salary_name_pattern=args.players_salary_name_pattern,
+        player_attributes_data_path = args.player_attributes_data_path,
+        player_attributes_name_pattern=args.player_attributes_name_pattern,
+        player_salary_data_path=args.player_salary_data_path,
+        player_salary_name_pattern=args.player_salary_name_pattern,
         output_dest_file_path=args.output_dest_file_path,
         output_file_name=args.output_file_name
     )

@@ -7,12 +7,14 @@ class TestFeatureSelection(TestCase):
     def setUp(self) -> None:
         self.output_dest_file_path = './tests/test_output/'
         self.output_file_name = 'player_attributes_salaries_dataset'
-        self.gamelog_data_path = 'pipeline_output/gamelog/'
-        self.gamelog_name_pattern = 'gamelog'
-        self.schedule_data_path = 'pipeline_output/schedule/'
+        self.players_attributes_data_path ='./tests/test_input/'
+        self.players_attributes_name_pattern = 'player_attributes'
+        self.players_salary_data_path ='./tests/test_input/'
+        self.players_salary_name_pattern = 'player_salary'
+        self.schedule_data_path = './tests/test_input/'
         self.schedule_name_pattern = 'schedule'
 
-    def test_player_attributes_salaries_unification_wo_arguments(self):
+    def test_player_attributes_salaries_unification_w_args(self):
 
         # Check if the file exists before attempting to delete it
         if os.path.exists(self.output_dest_file_path + self.output_file_name + '.csv'):
@@ -22,15 +24,14 @@ class TestFeatureSelection(TestCase):
             print(f"The file {self.output_dest_file_path + self.output_file_name + '.csv'} does not exist.")
 
         player_attributes_salaries_unification.player_attributes_salaries_unification(
+            schedule_data_path=self.schedule_data_path,
+            schedule_name_pattern=self.schedule_name_pattern,
+            player_attributes_data_path = self.players_attributes_data_path,
+            player_attributes_name_pattern=self.players_attributes_name_pattern,
+            player_salary_data_path=self.players_salary_data_path,
+            player_salary_name_pattern=self.players_salary_name_pattern,
             output_dest_file_path = self.output_dest_file_path,
             output_file_name = self.output_file_name
         )
-
-        # gamelog_data_path: Path =' pipeline_output/gamelog/',
-        # gamelog_name_pattern: str = 'gamelog',
-        # schedule_data_path: Path =' pipeline_output/schedule/',
-        # schedule_name_pattern: str = 'schedule',
-        # unified_file_path: Path ='pipeline_output/final/',
-        # unified_file_name: str = 'nba_games_training_dataset'
 
         assert os.path.exists(self.output_dest_file_path + self.output_file_name + '.csv') is True

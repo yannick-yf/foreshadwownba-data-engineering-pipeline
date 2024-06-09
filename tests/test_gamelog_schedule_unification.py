@@ -12,7 +12,7 @@ class TestFeatureSelection(TestCase):
         self.schedule_data_path = 'pipeline_output/schedule/'
         self.schedule_name_pattern = 'schedule'
 
-    def test_gamelog_schedule_unification_with_arguments(self):
+    def test_gamelog_schedule_unification_w_args(self):
 
         # Check if the file exists before attempting to delete it
         if os.path.exists(self.unified_file_path + self.unified_file_name + '.csv'):

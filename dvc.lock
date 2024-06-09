@@ -83,12 +83,14 @@ stages:
           data_path: pipeline_output/final/
           file_name: nba_games_training_dataset
   player_attributes_salaries_unification:
-    cmd: python3 -m src.transform.player_attributes_salaries_unification --config=params.yaml
+    cmd:
+    - python3 -m src.transform.player_attributes_salaries_unification --schedule-data-path
+      ./pipeline_output/schedule/
     deps:
     - path: src/transform/player_attributes_salaries_unification.py
       hash: md5
-      md5: 05a726963c04c1b4e55c5125f58e44be
-      size: 5163
+      md5: 4332a31a59c2a2f0e6060f23497d5d3e
+      size: 9088
     params:
       params.yaml:
         base:
