@@ -11,12 +11,13 @@ from pandas.io import sql
 from sqlalchemy import create_engine
 from src.utils.logs import get_logger
 import sys
+from sqlalchemy import text
 # importing os module for environment variables
 import os
 # importing necessary functions from dotenv library
 from dotenv import load_dotenv 
 
-def load_data_to_db(config_path: Text) -> pd.DataFrame:
+def load_gamelog_schedule_unified_to_db(config_path: Text) -> pd.DataFrame:
     """Load raw data.
     Args:
         config_path {Text}: path to config
@@ -32,7 +33,12 @@ def load_data_to_db(config_path: Text) -> pd.DataFrame:
     )
 
     # Read the data to insert into the db
-    nba_games_training_dataset = pd.read_csv('pipeline_output/final/nba_games_training_dataset.csv')
+    gamelog_schedule_path = config_params["gamelog_schedule_unification"]["data_path"]
+    gamelog_schedule_name = config_params["gamelog_schedule_unification"]["file_name"]
+
+    name_and_path_file = str(gamelog_schedule_path) + '/' + gamelog_schedule_name + ".csv"
+
+    nba_games_training_dataset = pd.read_csv(name_and_path_file)
     nba_games_training_dataset = nba_games_training_dataset.reset_index(drop=True)
 
     engine = create_engine("mysql+pymysql://{user}:{pw}@localhost/{db}"
@@ -43,23 +49,31 @@ def load_data_to_db(config_path: Text) -> pd.DataFrame:
     nba_games_training_dataset.to_sql(
         con=engine, 
         index=False,
-        name='nba_games_training_dataset', 
-        if_exists='replace')
+        name=gamelog_schedule_name, 
+        if_exists='append')
+    
+    with engine.connect() as conn:
+        query1 = text("""
+            ALTER TABLE nba_games_training_dataset ADD COLUMN count_ID int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY;
+        """)
+        query2 = text("""
+            DELETE FROM nba_games_training_dataset
+            WHERE count_ID not in (
+                SELECT count_ID FROM (
+                    SELECT max(count_ID) as count_ID
+                    FROM nba_games_training_dataset
+                    GROUP BY id, game_date, tm, opp
+                    ) as c
+                );
+        """)
+        query3 = text("""
+            ALTER TABLE nba_games_training_dataset DROP count_ID;
+        """)
+        conn.execute(query1 )
+        conn.execute(query2)
+        conn.execute(query3)
 
-# DELETE
-#   FROM customer_movie_rentals
-# WHERE rental_id IN (SELECT
-#       rental_id
-#     FROM (SELECT
-#         rental_id,
-#         ROW_NUMBER() OVER (
-#         PARTITION BY customer_id
-#         ORDER BY customer_id
-#         ) AS row_num
-#       FROM customer_movie_rentals cmr) t
-#     WHERE row_num > 1);
-
-    logger.info("Load Data to Database complete")
+    logger.info("Load Gamelog and Schedule Data to Database complete")
 
 
 if __name__ == "__main__":
@@ -70,4 +84,4 @@ if __name__ == "__main__":
 
     args = arg_parser.parse_args()
 
-    load_data_to_db(config_path=args.config_params)
+    load_gamelog_schedule_unified_to_db(config_path=args.config_params)

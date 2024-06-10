@@ -48,18 +48,24 @@ def player_attributes_salaries_unification(
             glob.glob(os.path.join(schedule_data_path, schedule_name_pattern +  "_*.csv")),
         )
     )
+    schedule_df = schedule_df.reset_index(drop=True)
+
     players_attributes_df = pd.concat(
         map(
             pd.read_csv,
             glob.glob(os.path.join(player_attributes_data_path, player_attributes_name_pattern +  "_*.csv")),
         )
     )
+    players_attributes_df = players_attributes_df.reset_index(drop=True)
+
     players_salary_df = pd.concat(
         map(
             pd.read_csv,
             glob.glob(os.path.join(player_salary_data_path, player_salary_name_pattern +  "_*.csv")),
         )
     )
+    players_salary_df = players_salary_df.reset_index(drop=True)
+
 
     # Name cleaning from both player attributes and player salary
     players_attributes_df["Name"] = players_attributes_df["Name"].str.replace(
@@ -172,7 +178,7 @@ def player_attributes_salaries_unification(
 
     name_and_path_file = str(output_dest_file_path) + '/' + output_file_name + ".csv"
 
-    player_info.to_csv(name_and_path_file, index=True)
+    player_info.to_csv(name_and_path_file, index=False)
 
     logger.info("Player Atributes & Salaries Unification complete")
 

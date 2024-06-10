@@ -73,15 +73,25 @@ stages:
     deps:
     - path: src/transform/gamelog_schedule_unification.py
       hash: md5
-      md5: 73b9bd5949a0de0403d9398345f03895
-      size: 5400
+      md5: 5bc48b386efbe44eed2322d812a1b762
+      size: 6184
     params:
       params.yaml:
         base:
           log_level: INFO
+        gamelog_data_acquisition:
+          season: 2024
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
         gamelog_schedule_unification:
           data_path: pipeline_output/final/
           file_name: nba_games_training_dataset
+        schedule_data_acquisition:
+          season: 2024
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
   player_attributes_salaries_unification:
     cmd:
     - python3 -m src.transform.player_attributes_salaries_unification --schedule-data-path
@@ -93,25 +103,71 @@ stages:
     deps:
     - path: src/transform/player_attributes_salaries_unification.py
       hash: md5
-      md5: a98a54a8aef530ef72215cc126d28e5f
-      size: 9094
+      md5: 27bcc10f8ec187eeb3b42e1b43bbb18c
+      size: 9289
     params:
       params.yaml:
         base:
           log_level: INFO
+        player_attributes_data_acquisition:
+          season: 2024
+          team: all
+          data_type: player_attributes
+          output_folder: pipeline_output/player_attributes/
         player_attributes_salaries_unification:
           data_path: pipeline_output/final/
           file_name: player_attributes_salaries_dataset
+        player_salary_data_acquisition:
+          season: 2024
+          data_type: player_salary
+          output_folder: pipeline_output/player_salary/
+        schedule_data_acquisition:
+          season: 2024
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
   load_data_to_db:
     cmd: python3 -m src.load.load_data_to_db --config=params.yaml
     deps:
     - path: src/load/load_data_to_db.py
       hash: md5
-      md5: 589263675a01d085e5d40e115fdf78de
-      size: 2791
+      md5: b318ffb99f2474d276200eb46464e49e
+      size: 2650
     params:
       params.yaml:
         base:
           log_level: INFO
         load_data_to_db:
           test: test
+  load_gamelog_schedule_unified_to_db:
+    cmd: python3 -m src.load.load_gamelog_schedule_unified_to_db --config=params.yaml
+    deps:
+    - path: src/load/load_gamelog_schedule_unified_to_db.py
+      hash: md5
+      md5: efcd218bcbe44b109217e498dc58664e
+      size: 2935
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_schedule_unification:
+          data_path: pipeline_output/final/
+          file_name: nba_games_training_dataset
+        load_gamelog_schedule_unified_to_db:
+          test: test
+  load_player_attributes_salaries_unified_to_db:
+    cmd: python3 -m src.load.load_player_attributes_salaries_unified_to_db --config=params.yaml
+    deps:
+    - path: src/load/load_player_attributes_salaries_unified_to_db.py
+      hash: md5
+      md5: 628c0b60b4c9b2b3b351fc3eb786a3d2
+      size: 2984
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        load_player_attributes_salaries_unified_to_db:
+          test: test
+        player_attributes_salaries_unification:
+          data_path: pipeline_output/final/
+          file_name: player_attributes_salaries_dataset

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from typing import Text
 import yaml
 import argparse
@@ -79,6 +80,24 @@ def gamelog_schedule_unification(
         how="left",
         left_on=["id_season", "tm", "game_date"],
         right_on=["id_season", "tm", "game_date"],
+    )
+
+    #-------------------------------------------
+    # Ext Dom Process
+
+    nba_games_training_dataset['extdom'] = np.where(
+        nba_games_training_dataset['extdom']=='@',
+        'ext',
+        'dom')
+    
+    nba_games_training_dataset['game_date'] = nba_games_training_dataset['game_date'].astype(str).str[:10]
+
+    #-------------------------------------------
+    # Unique id creation
+    nba_games_training_dataset['id'] = np.where(
+        nba_games_training_dataset['extdom']=='dom',
+        nba_games_training_dataset['game_date'] + '_' + nba_games_training_dataset['opp'] + '_' + nba_games_training_dataset['tm'],
+        nba_games_training_dataset['game_date'] + '_' + nba_games_training_dataset['tm'] + '_' + nba_games_training_dataset['opp']
     )
 
     # ------------------------------------------

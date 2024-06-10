@@ -33,5 +33,8 @@ player_attributes_salaries_unification:
   data_path: pipeline_output/final/
   file_name: player_attributes_salaries_dataset
 
-load_data_to_db:
+load_gamelog_schedule_unified_to_db:
+  test: test
+
+load_player_attributes_salaries_unified_to_db:
   test: test
