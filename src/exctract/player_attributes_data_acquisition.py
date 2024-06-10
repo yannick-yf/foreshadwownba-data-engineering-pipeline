@@ -53,7 +53,7 @@ def player_attributes_data_acquisition(config_path: Text) -> pd.DataFrame:
         + ".csv"
     )
 
-    player_attributes_df.to_csv(name_and_path_file, index=True)
+    player_attributes_df.to_csv(name_and_path_file, index=False)
 
     logger.info("Player Attributes Data Acquisition complete")
 

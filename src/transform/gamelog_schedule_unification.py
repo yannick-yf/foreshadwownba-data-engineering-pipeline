@@ -6,7 +6,7 @@ import os
 import glob
 from typing import Union
 from pathlib import Path
-
+import sys
 from src.utils.logs import get_logger
 
 logger = get_logger(
@@ -42,12 +42,15 @@ def gamelog_schedule_unification(
             glob.glob(os.path.join(gamelog_data_path, gamelog_name_pattern +  "_*.csv")),
         )
     )
+    gamelog_df = gamelog_df.reset_index(drop=True)
+
     schedule_df = pd.concat(
         map(
             pd.read_csv,
             glob.glob(os.path.join(schedule_data_path, schedule_name_pattern +  "_*.csv")),
         )
     )
+    schedule_df = schedule_df.reset_index(drop=True)
 
     # ----------------------------------------------
     # SCHEDULES_DF - Re format date
@@ -85,9 +88,9 @@ def gamelog_schedule_unification(
     if not isExist:
         os.makedirs(unified_file_path)
 
-    name_and_path_file = str(unified_file_path) + unified_file_name + ".csv"
+    name_and_path_file = str(unified_file_path)+ '/' + unified_file_name + ".csv"
 
-    nba_games_training_dataset.to_csv(name_and_path_file, index=True)
+    nba_games_training_dataset.to_csv(name_and_path_file, index=False)
 
     logger.info("Gamelog & Schedule Unification complete")
 
@@ -176,7 +179,7 @@ def main():
         schedule_data_path=args.schedule_data_path,
         schedule_name_pattern=args.schedule_name_pattern,
         unified_file_path=args.unified_file_path,
-        unified_file_name=args.unified_file_name
+        unified_file_name=args.unified_file_name,
     )
 
 if __name__ == "__main__":

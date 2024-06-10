@@ -170,7 +170,7 @@ def player_attributes_salaries_unification(
     if not isExist:
         os.makedirs(output_dest_file_path)
 
-    name_and_path_file = str(output_dest_file_path) + output_file_name + ".csv"
+    name_and_path_file = str(output_dest_file_path) + '/' + output_file_name + ".csv"
 
     player_info.to_csv(name_and_path_file, index=True)
 

@@ -86,7 +86,7 @@ def player_salary_data_acquisition(config_path: Text) -> pd.DataFrame:
         + ".csv"
     )
 
-    player_salary_df.to_csv(name_and_path_file, index=True)
+    player_salary_df.to_csv(name_and_path_file, index=False)
 
     logger.info("Player Salary Data Acquisition complete")
 

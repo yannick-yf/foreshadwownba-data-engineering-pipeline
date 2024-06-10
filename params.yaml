@@ -3,13 +3,13 @@ base:
   log_level: INFO
 
 gamelog_data_acquisition:
-  season: 2010
+  season: 2024
   team: all
   data_type: gamelog
   output_folder: pipeline_output/gamelog/
 
 schedule_data_acquisition:
-  season: 2010
+  season: 2024
   team: all
   data_type: schedule
   output_folder: pipeline_output/schedule/
@@ -32,3 +32,6 @@ gamelog_schedule_unification:
 player_attributes_salaries_unification:
   data_path: pipeline_output/final/
   file_name: player_attributes_salaries_dataset
+
+load_data_to_db:
+  test: test

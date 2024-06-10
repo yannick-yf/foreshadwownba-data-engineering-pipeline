@@ -5,14 +5,14 @@ stages:
     deps:
     - path: src/exctract/gamelog_data_acquisition.py
       hash: md5
-      md5: d0b1ae13dc785caf1d8afcf037fe084f
-      size: 1851
+      md5: 0a05e5a11a4942539e3ec5a0788cd8af
+      size: 1852
     params:
       params.yaml:
         base:
           log_level: INFO
         gamelog_data_acquisition:
-          season: 2010
+          season: 2024
           team: all
           data_type: gamelog
           output_folder: pipeline_output/gamelog/
@@ -21,14 +21,14 @@ stages:
     deps:
     - path: src/exctract/schedule_data_acquisition.py
       hash: md5
-      md5: 1ae4f6faeb258a4154c91e28c5f61be3
-      size: 1864
+      md5: c5585dddd99128677b7e19a352c37b29
+      size: 1865
     params:
       params.yaml:
         base:
           log_level: INFO
         schedule_data_acquisition:
-          season: 2010
+          season: 2024
           team: all
           data_type: schedule
           output_folder: pipeline_output/schedule/
@@ -37,8 +37,8 @@ stages:
     deps:
     - path: src/exctract/player_attributes_data_acquisition.py
       hash: md5
-      md5: 452eaa17e5b0b289505a959caa50383a
-      size: 1981
+      md5: 1f3c313166d9e94036e774bfe82f68dc
+      size: 1982
     params:
       params.yaml:
         base:
@@ -54,8 +54,8 @@ stages:
     deps:
     - path: src/exctract/player_salary_data_acquisition.py
       hash: md5
-      md5: e77a6d3f77e75c57386867cd06796e2a
-      size: 4407
+      md5: a4fd24dd517f4f1c1def0886aaf39b6b
+      size: 4408
     params:
       params.yaml:
         base:
@@ -73,8 +73,8 @@ stages:
     deps:
     - path: src/transform/gamelog_schedule_unification.py
       hash: md5
-      md5: 71d915405e286e7220457ba3129a94b2
-      size: 5278
+      md5: 73b9bd5949a0de0403d9398345f03895
+      size: 5400
     params:
       params.yaml:
         base:
@@ -85,12 +85,16 @@ stages:
   player_attributes_salaries_unification:
     cmd:
     - python3 -m src.transform.player_attributes_salaries_unification --schedule-data-path
-      ./pipeline_output/schedule/
+      ./pipeline_output/schedule/ --schedule-name-pattern schedule --player-attributes-data-path
+      ./pipeline_output/player_attributes/ --player-attributes-name-pattern player_attributes
+      --player-salary-data-path ./pipeline_output/player_salary/ --player-salary-name-pattern
+      player_salary --output-dest-file-path ./pipeline_output/final/ --output-file-name
+      player_attributes_salaries_dataset
     deps:
     - path: src/transform/player_attributes_salaries_unification.py
       hash: md5
-      md5: 4332a31a59c2a2f0e6060f23497d5d3e
-      size: 9088
+      md5: a98a54a8aef530ef72215cc126d28e5f
+      size: 9094
     params:
       params.yaml:
         base:
@@ -98,3 +102,16 @@ stages:
         player_attributes_salaries_unification:
           data_path: pipeline_output/final/
           file_name: player_attributes_salaries_dataset
+  load_data_to_db:
+    cmd: python3 -m src.load.load_data_to_db --config=params.yaml
+    deps:
+    - path: src/load/load_data_to_db.py
+      hash: md5
+      md5: 589263675a01d085e5d40e115fdf78de
+      size: 2791
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        load_data_to_db:
+          test: test

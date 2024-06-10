@@ -53,7 +53,7 @@ def schedule_data_acquisition(config_path: Text) -> pd.DataFrame:
         + ".csv"
     )
 
-    schedule_df.to_csv(name_and_path_file, index=True)
+    schedule_df.to_csv(name_and_path_file, index=False)
 
     logger.info("Schedule Data Acquisition complete")
 

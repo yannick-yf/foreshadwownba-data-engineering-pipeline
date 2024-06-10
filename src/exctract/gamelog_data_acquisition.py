@@ -53,7 +53,7 @@ def gamelog_data_acquisition(config_path: Text) -> pd.DataFrame:
         + ".csv"
     )
 
-    gamelog_df.to_csv(name_and_path_file, index=True)
+    gamelog_df.to_csv(name_and_path_file, index=False)
 
     logger.info("Gamelog Data Acquisition complete")
 

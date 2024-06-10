@@ -53,32 +53,24 @@ stages:
     - >- 
       python3 -m src.transform.player_attributes_salaries_unification
       --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
-#      --schedule-name-pattern ${schedule_data_acquisition.data_type}
-#      --player-attributes-data-path ${project.directory}/${player_attributes_data_acquisition.output_folder}
-#      --player-attributes-name-pattern ${player_attributes_data_acquisition.data_type}
-#      --player-salary-data-path ${project.directory}/${player_salary_data_acquisition.output_folder}
-#      --player-salary-name-pattern ${player_salary_data_acquisition.data_type}
-#      --output-dest-file-path ${project.directory}/${player_attributes_salaries_unification.data_path}
-#      --output-file-name ${player_attributes_salaries_unification.file_name}
+      --schedule-name-pattern ${schedule_data_acquisition.data_type}
+      --player-attributes-data-path ${project.directory}/${player_attributes_data_acquisition.output_folder}
+      --player-attributes-name-pattern ${player_attributes_data_acquisition.data_type}
+      --player-salary-data-path ${project.directory}/${player_salary_data_acquisition.output_folder}
+      --player-salary-name-pattern ${player_salary_data_acquisition.data_type}
+      --output-dest-file-path ${project.directory}/${player_attributes_salaries_unification.data_path}
+      --output-file-name ${player_attributes_salaries_unification.file_name}
     deps:
       - src/transform/player_attributes_salaries_unification.py
     params:
       - base
       - player_attributes_salaries_unification
-    # outs:
-    #   - pipeline_output/schedule/
-  # writte_final_output_to_s3:
-  #   cmd:
-  #     - >-
-  #       aws s3 cp 
-  #       ./data_pipeline/final/
-  #       s3://cad-yannick/syncropshield-data-pipeline-output/datasets/ --profile=cads-it --recursive
-  #     - >-
-  #       aws s3 cp 
-  #       ./reports/eda/
-  #       s3://cad-yannick/syncropshield-data-pipeline-output/eda_report/ --profile=cads-it --recursive
-  #   deps:
-  #     - data_pipeline/final/
-  #     - reports/eda/
+  load_data_to_db:
+    cmd: python3 -m src.load.load_data_to_db --config=params.yaml
+    deps:
+      - src/load/load_data_to_db.py
+    params:
+      - base
+      - load_data_to_db
 
 
