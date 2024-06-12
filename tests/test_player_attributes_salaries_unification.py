@@ -3,7 +3,7 @@ import os
 from src.transform import player_attributes_salaries_unification
 import shutil
 
-class TestFeatureSelection(TestCase):
+class TestPlayerAttributesSalariesUnification(TestCase):
     def setUp(self) -> None:
         self.output_dest_file_path = './tests/test_output/'
         self.output_file_name = 'player_attributes_salaries_dataset'

@@ -1,5 +1,6 @@
 # https://sebrave.medium.com/how-to-spin-up-a-local-mysql-database-on-macos-a550918f092b
 # https://blog.devart.com/delete-duplicate-rows-in-mysql.html
+# https://numberly.tech/orchestrating-python-workflows-in-apache-airflow-fd8be71ad504
 
 import pymysql
 import pandas as pd
@@ -38,9 +39,10 @@ def load_player_attributes_salaries_unified_to_db(config_path: Text) -> pd.DataF
     player_attributes_salaries_dataset = pd.read_csv(name_and_path_file)
     player_attributes_salaries_dataset = player_attributes_salaries_dataset.reset_index(drop=True)
 
-    engine = create_engine("mysql+pymysql://{user}:{pw}@localhost/{db}"
+    engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
                         .format(user=os.getenv('MYSQL_USERNAME'),
                                 pw=os.getenv("MYSQL_PASSWORD"),
+                                host=os.getenv("MYSQL_HOST"),
                                 db=os.getenv("MYSQL_DATABASE")))
     
     player_attributes_salaries_dataset.to_sql(

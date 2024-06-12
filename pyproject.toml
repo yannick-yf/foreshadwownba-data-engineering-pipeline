@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "foreshadwownba_data_engineering_pipeline"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "3.11.9"
 ipykernel = "*"
 pandas = "*"
 beautifulsoup4 = "*"

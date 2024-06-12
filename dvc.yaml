@@ -1,33 +1,54 @@
+#dvc repro linear/dvc.yaml
 vars:
   - project:
       directory: .
 stages:
   gamelog_data_acquisition:
-    cmd: python3 -m src.exctract.gamelog_data_acquisition --config=params.yaml
+    cmd: 
+    - >- 
+      python3 -m src.exctract.gamelog_data_acquisition 
+      --data-type ${gamelog_data_acquisition.data_type}
+      --season ${global_params.season}
+      --team ${gamelog_data_acquisition.team}
+      --output-folder ${project.directory}/${gamelog_data_acquisition.output_folder}
     deps:
       - src/exctract/gamelog_data_acquisition.py
     params:
       - base
       - gamelog_data_acquisition
-    # outs:
-    #   - pipeline_output/gamelog/
   schedule_data_acquisition:
-    cmd: python3 -m src.exctract.schedule_data_acquisition --config=params.yaml
+    cmd:
+    - >- 
+      python3 -m src.exctract.schedule_data_acquisition 
+      --data-type ${schedule_data_acquisition.data_type}
+      --season ${global_params.season}
+      --team ${schedule_data_acquisition.team}
+      --output-folder ${project.directory}/${schedule_data_acquisition.output_folder}
     deps:
       - src/exctract/schedule_data_acquisition.py
     params:
       - base
       - schedule_data_acquisition
   player_attributes_data_acquisition:
-    cmd: python3 -m src.exctract.player_attributes_data_acquisition --config=params.yaml
+    cmd:
+    - >- 
+      python3 -m src.exctract.player_attributes_data_acquisition 
+      --data-type ${player_attributes_data_acquisition.data_type}
+      --season ${global_params.season}
+      --team ${player_attributes_data_acquisition.team}
+      --output-folder ${project.directory}/${player_attributes_data_acquisition.output_folder}
     deps:
       - src/exctract/player_attributes_data_acquisition.py
     params:
       - base
       - player_attributes_data_acquisition
   player_salary_data_acquisition:
-    cmd: 
-    - python3 -m src.exctract.player_salary_data_acquisition  --config=params.yaml
+    cmd:
+    - >- 
+      python3 -m src.exctract.player_salary_data_acquisition 
+      --data-type ${player_salary_data_acquisition.data_type}
+      --season ${global_params.season}
+      --output-folder ${project.directory}/${player_salary_data_acquisition.output_folder}
     deps:
       - src/exctract/player_salary_data_acquisition.py
     params:

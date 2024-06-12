@@ -3,7 +3,7 @@ import os
 from src.transform import gamelog_schedule_unification
 import shutil
 
-class TestFeatureSelection(TestCase):
+class TestGamelogScheduleUnification(TestCase):
     def setUp(self) -> None:
         self.unified_file_path = './tests/test_output/'
         self.unified_file_name = 'test'

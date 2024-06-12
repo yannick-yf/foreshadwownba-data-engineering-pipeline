@@ -16,26 +16,29 @@ from urllib.error import HTTPError
 import re
 import lxml.html as lh
 import time
-
+from pathlib import Path
 from src.utils.logs import get_logger
 
+logger = get_logger(
+    "PLAYER_SALARIES_DATA_ACQUISITION", log_level='INFO'
+)
 
-def player_salary_data_acquisition(config_path: Text) -> pd.DataFrame:
-    """Load raw data.
-    Args:
-        config_path {Text}: path to config
+
+def player_salary_data_acquisition(
+        data_type: str = 'player_salary',
+        season: int = 2024,
+        output_folder: Path = 'pipeline_output/player_salary/'
+        ) -> None:
     """
-    with open("params.yaml") as conf_file:
-        config = yaml.safe_load(conf_file)
-
-    logger = get_logger(
-        "PLAYER_SALARIES_DATA_ACQUISITION", log_level=config["base"]["log_level"]
-    )
+    Gamelog data acquisition.
+    Args:
+        data_type (str): Argument from basketball_reference_webscrapper. Type of data to pull from the package
+        season (int): Argument from basketball_reference_webscrapper. Season to pull from the package
+        output_folder (Path): Path where to save the gamelog data pulled using the package.
+    """
 
     # ------------------------------------------
     # Saving final training dataset
-
-    season = config["player_salary_data_acquisition"]["season"]
 
     player_salary_df = []
     url = "http://www.espn.com/nba/salaries/_/year/" + str(season) + "/seasontype/"
@@ -73,14 +76,14 @@ def player_salary_data_acquisition(config_path: Text) -> pd.DataFrame:
 
     #################################################################
 
-    folder = config["player_salary_data_acquisition"]["output_folder"]
+    folder = output_folder
     isExist = os.path.exists(folder)
     if not isExist:
         os.makedirs(folder)
 
     name_and_path_file = (
-        folder
-        + config["player_salary_data_acquisition"]["data_type"]
+        str(folder)
+        + data_type
         + "_"
         + str(season)
         + ".csv"
@@ -138,12 +141,63 @@ def scrape_page(url):
     return dict, page_total
 
 
+
+def get_args():
+    """
+    Parse command line arguments and return the parsed arguments.
+
+    Returns:
+        argparse.Namespace: Parsed command line arguments.
+    """
+    _dir = Path(__file__).parent.resolve()
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--params-file",
+        type=Path,
+        default="params.yaml",
+    )
+
+    args, _ = parser.parse_known_args()
+    params = yaml.safe_load(args.params_file.open())
+
+    player_salary_data_acquisition_params = params["player_salary_data_acquisition"]
+    global_params = params['global_params']
+
+    parser.add_argument(
+        "--output-folder",
+        dest="output_folder",
+        type=Path,
+        default=player_salary_data_acquisition_params["output_folder"],
+    )
+
+    parser.add_argument(
+        "--data-type",
+        dest="data_type",
+        type=str,
+        default=player_salary_data_acquisition_params["data_type"],
+    )
+
+    parser.add_argument(
+        "--season",
+        dest="season",
+        type=int,
+        default=global_params["season"],
+    )
+
+    args = parser.parse_args()
+
+    return args
+
+def main():
+    """Run the Pre Train Multiple Models Pipeline."""
+    args = get_args()
+
+    player_salary_data_acquisition(
+        data_type=args.data_type,
+        season=args.season,
+        output_folder=args.output_folder,
+    )
+
 if __name__ == "__main__":
-
-    arg_parser = argparse.ArgumentParser()
-
-    arg_parser.add_argument("--config", dest="config", required=True)
-
-    args = arg_parser.parse_args()
-
-    player_salary_data_acquisition(config_path=args.config)
+    main()
