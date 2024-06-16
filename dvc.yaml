@@ -18,96 +18,102 @@ stages:
       params:
         - base
         - gamelog_data_acquisition
-  # schedule_data_acquisition:
-  #   cmd:
-  #   - >- 
-  #     python3 -m src.exctract.schedule_data_acquisition 
-  #     --data-type ${schedule_data_acquisition.data_type}
-  #     --season ${global_params.season}
-  #     --team ${schedule_data_acquisition.team}
-  #     --output-folder ${project.directory}/${schedule_data_acquisition.output_folder}
-  #   deps:
-  #     - src/exctract/schedule_data_acquisition.py
-  #   params:
-  #     - base
-  #     - schedule_data_acquisition
-  # player_attributes_data_acquisition:
-  #   cmd:
-  #   - >- 
-  #     python3 -m src.exctract.player_attributes_data_acquisition 
-  #     --data-type ${player_attributes_data_acquisition.data_type}
-  #     --season ${global_params.season}
-  #     --team ${player_attributes_data_acquisition.team}
-  #     --output-folder ${project.directory}/${player_attributes_data_acquisition.output_folder}
-  #   deps:
-  #     - src/exctract/player_attributes_data_acquisition.py
-  #   params:
-  #     - base
-  #     - player_attributes_data_acquisition
-  # player_salary_data_acquisition:
-  #   cmd:
-  #   - >- 
-  #     python3 -m src.exctract.player_salary_data_acquisition 
-  #     --data-type ${player_salary_data_acquisition.data_type}
-  #     --season ${global_params.season}
-  #     --output-folder ${project.directory}/${player_salary_data_acquisition.output_folder}
-  #   deps:
-  #     - src/exctract/player_salary_data_acquisition.py
-  #   params:
-  #     - base
-  #     - player_salary_data_acquisition
-  # gamelog_schedule_unification:
-  #   cmd: 
-  #   - >- 
-  #     python3 -m src.transform.gamelog_schedule_unification 
-  #     --gamelog-data-path ${project.directory}/${gamelog_data_acquisition.output_folder}
-  #     --gamelog-name-pattern ${gamelog_data_acquisition.data_type}
-  #     --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
-  #     --schedule-name-pattern ${schedule_data_acquisition.data_type}
-  #     --unified-file-path ${project.directory}/${gamelog_schedule_unification.data_path}
-  #     --unified-file-name ${gamelog_schedule_unification.file_name}
-  #   deps:
-  #     - src/transform/gamelog_schedule_unification.py
-  #   params:
-  #     - base
-  #     - gamelog_schedule_unification
-  #     - schedule_data_acquisition
-  #     - gamelog_data_acquisition
-  # player_attributes_salaries_unification:
-  #   cmd: 
-  #   - >- 
-  #     python3 -m src.transform.player_attributes_salaries_unification
-  #     --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
-  #     --schedule-name-pattern ${schedule_data_acquisition.data_type}
-  #     --player-attributes-data-path ${project.directory}/${player_attributes_data_acquisition.output_folder}
-  #     --player-attributes-name-pattern ${player_attributes_data_acquisition.data_type}
-  #     --player-salary-data-path ${project.directory}/${player_salary_data_acquisition.output_folder}
-  #     --player-salary-name-pattern ${player_salary_data_acquisition.data_type}
-  #     --output-dest-file-path ${project.directory}/${player_attributes_salaries_unification.data_path}
-  #     --output-file-name ${player_attributes_salaries_unification.file_name}
-  #   deps:
-  #     - src/transform/player_attributes_salaries_unification.py
-  #   params:
-  #     - base
-  #     - player_attributes_salaries_unification
-  #     - schedule_data_acquisition
-  #     - player_attributes_data_acquisition
-  #     - player_salary_data_acquisition
-  # load_gamelog_schedule_unified_to_db:
-  #   cmd: python3 -m src.load.load_gamelog_schedule_unified_to_db --config=params.yaml
-  #   deps:
-  #     - src/load/load_gamelog_schedule_unified_to_db.py
-  #   params:
-  #     - base
-  #     - load_gamelog_schedule_unified_to_db
-  #     - gamelog_schedule_unification
-  # load_player_attributes_salaries_unified_to_db:
-  #   cmd: python3 -m src.load.load_player_attributes_salaries_unified_to_db --config=params.yaml
-  #   deps:
-  #     - src/load/load_player_attributes_salaries_unified_to_db.py
-  #   params:
-  #     - base
-  #     - load_player_attributes_salaries_unified_to_db
-  #     - player_attributes_salaries_unification
+  schedule_data_acquisition:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >- 
+        python3 -m src.exctract.schedule_data_acquisition 
+        --data-type ${schedule_data_acquisition.data_type}
+        --season ${item}
+        --team ${schedule_data_acquisition.team}
+        --output-folder ${project.directory}/${schedule_data_acquisition.output_folder}
+      deps:
+        - src/exctract/schedule_data_acquisition.py
+      params:
+        - base
+        - schedule_data_acquisition
+  player_attributes_data_acquisition:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >- 
+        python3 -m src.exctract.player_attributes_data_acquisition 
+        --data-type ${player_attributes_data_acquisition.data_type}
+        --season ${item}
+        --team ${player_attributes_data_acquisition.team}
+        --output-folder ${project.directory}/${player_attributes_data_acquisition.output_folder}
+      deps:
+        - src/exctract/player_attributes_data_acquisition.py
+      params:
+        - base
+        - player_attributes_data_acquisition
+  player_salary_data_acquisition:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >- 
+        python3 -m src.exctract.player_salary_data_acquisition 
+        --data-type ${player_salary_data_acquisition.data_type}
+        --season ${item}
+        --output-folder ${project.directory}/${player_salary_data_acquisition.output_folder}
+      deps:
+        - src/exctract/player_salary_data_acquisition.py
+      params:
+        - base
+        - player_salary_data_acquisition
+  gamelog_schedule_unification:
+    cmd: 
+    - >- 
+      python3 -m src.transform.gamelog_schedule_unification 
+      --gamelog-data-path ${project.directory}/${gamelog_data_acquisition.output_folder}
+      --gamelog-name-pattern ${gamelog_data_acquisition.data_type}
+      --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
+      --schedule-name-pattern ${schedule_data_acquisition.data_type}
+      --unified-file-path ${project.directory}/${gamelog_schedule_unification.data_path}
+      --unified-file-name ${gamelog_schedule_unification.file_name}
+    deps:
+      - src/transform/gamelog_schedule_unification.py
+    params:
+      - base
+      - gamelog_schedule_unification
+      - schedule_data_acquisition
+      - gamelog_data_acquisition
+  player_attributes_salaries_unification:
+    cmd: 
+    - >- 
+      python3 -m src.transform.player_attributes_salaries_unification
+      --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
+      --schedule-name-pattern ${schedule_data_acquisition.data_type}
+      --player-attributes-data-path ${project.directory}/${player_attributes_data_acquisition.output_folder}
+      --player-attributes-name-pattern ${player_attributes_data_acquisition.data_type}
+      --player-salary-data-path ${project.directory}/${player_salary_data_acquisition.output_folder}
+      --player-salary-name-pattern ${player_salary_data_acquisition.data_type}
+      --output-dest-file-path ${project.directory}/${player_attributes_salaries_unification.data_path}
+      --output-file-name ${player_attributes_salaries_unification.file_name}
+    deps:
+      - src/transform/player_attributes_salaries_unification.py
+    params:
+      - base
+      - player_attributes_salaries_unification
+      - schedule_data_acquisition
+      - player_attributes_data_acquisition
+      - player_salary_data_acquisition
+  load_gamelog_schedule_unified_to_db:
+    cmd: python3 -m src.load.load_gamelog_schedule_unified_to_db --config=params.yaml
+    deps:
+      - src/load/load_gamelog_schedule_unified_to_db.py
+    params:
+      - base
+      - load_gamelog_schedule_unified_to_db
+      - gamelog_schedule_unification
+  load_player_attributes_salaries_unified_to_db:
+    cmd: python3 -m src.load.load_player_attributes_salaries_unified_to_db --config=params.yaml
+    deps:
+      - src/load/load_player_attributes_salaries_unified_to_db.py
+    params:
+      - base
+      - load_player_attributes_salaries_unified_to_db
+      - player_attributes_salaries_unification
 
 

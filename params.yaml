@@ -8,7 +8,7 @@ global_params:
     - 2024
 
 gamelog_data_acquisition:
-  team: ATL
+  team: all
   data_type: gamelog
   output_folder: pipeline_output/gamelog/
 
