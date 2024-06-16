@@ -3,10 +3,12 @@ base:
   log_level: INFO
 
 global_params:
-  season: 2024
+  season: 
+    - 2023
+    - 2024
 
 gamelog_data_acquisition:
-  team: all
+  team: ATL
   data_type: gamelog
   output_folder: pipeline_output/gamelog/
 

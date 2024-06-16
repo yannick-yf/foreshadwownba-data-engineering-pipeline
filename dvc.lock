@@ -158,8 +158,8 @@ stages:
     deps:
     - path: src/load/load_player_attributes_salaries_unified_to_db.py
       hash: md5
-      md5: ec686438e34f7be80184aa4339cc8fca
-      size: 3043
+      md5: 9c32f2831234182ebcff1548d5198709
+      size: 3129
     params:
       params.yaml:
         base:
@@ -169,3 +169,37 @@ stages:
         player_attributes_salaries_unification:
           data_path: pipeline_output/final/
           file_name: player_attributes_salaries_dataset
+  gamelog_data_acquisition@2023:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2023 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+  gamelog_data_acquisition@2024:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2024 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
