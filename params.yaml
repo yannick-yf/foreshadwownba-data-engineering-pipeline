@@ -3,8 +3,7 @@ base:
   log_level: INFO
 
 global_params:
-  season: 
-    - 2023
+  season:
     - 2024
 
 gamelog_data_acquisition:
