@@ -1,0 +1,35 @@
+# Airflow set up
+https://numberly.tech/orchestrating-python-workflows-in-apache-airflow-fd8be71ad504
+
+# MySQL set up
+https://sebrave.medium.com/how-to-spin-up-a-local-mysql-database-on-macos-a550918f092b
+
+Here’s how to quickly spin up a database for local development.
+
+In the terminal, install MySQL using Homebrew:
+
+brew install mysql
+
+brew services start mysql
+
+brew services list
+
+Now in the terminal login using your root user:
+
+mysql -u root -p
+
+List existing databases and then create a new one:
+
+SHOW DATABASES;
+
+CREATE DATABASE mydatabase;
+
+Make a user and assign them permissions:
+
+CREATE USER ‘seb’@’localhost’ identified by ‘secret’;
+GRANT ALL ON mydatabase.* TO ‘seb’@’localhost’;
+exit;
+
+And that’s it you’re good to go!
+
+You can hook up your app to your local database for testing — MySQL runs on port 3306 by default.
