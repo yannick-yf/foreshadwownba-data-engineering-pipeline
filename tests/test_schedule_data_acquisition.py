@@ -6,7 +6,7 @@ import shutil
 class TestScheduleDataAcquisition(TestCase):
     def setUp(self) -> None:
         self.data_type = 'schedule'
-        self.season = 2024
+        self.season = 2022
         self.team = 'ATL'
         self.output_folder = 'tests/test_output'
 

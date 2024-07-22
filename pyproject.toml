@@ -13,12 +13,14 @@ pandas = "*"
 beautifulsoup4 = "*"
 lxml = "*"
 requests = "*"
-basketball-reference-webscrapper = "0.4.1"
+basketball-reference-webscrapper = "0.4.2"
 dvc = {extras = ["s3"], version = "^3.38.1"}
 pymysql = "*"
 sqlalchemy = "*"
 python-dotenv  = "*"
 apache-airflow = "*"
+kubernetes = "*"
+virtualenv = "*"
 
 [tool.poetry.dev-dependencies]
 coverage = {extras = ["toml"], version = "6.5.*"}
