@@ -55,20 +55,20 @@ def load_gamelog_schedule_unified_to_db(config_path: Text) -> pd.DataFrame:
     
     with engine.connect() as conn:
         query1 = text("""
-            ALTER TABLE nba_games_training_dataset ADD COLUMN count_ID int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY;
+            ALTER TABLE nba_gamelog_schedule_dataset ADD COLUMN count_ID int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY;
         """)
         query2 = text("""
-            DELETE FROM nba_games_training_dataset
+            DELETE FROM nba_gamelog_schedule_dataset
             WHERE count_ID not in (
                 SELECT count_ID FROM (
                     SELECT max(count_ID) as count_ID
-                    FROM nba_games_training_dataset
+                    FROM nba_gamelog_schedule_dataset
                     GROUP BY id, game_date, tm, opp
                     ) as c
                 );
         """)
         query3 = text("""
-            ALTER TABLE nba_games_training_dataset DROP count_ID;
+            ALTER TABLE nba_gamelog_schedule_dataset DROP count_ID;
         """)
         conn.execute(query1 )
         conn.execute(query2)
