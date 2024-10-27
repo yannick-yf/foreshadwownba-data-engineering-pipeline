@@ -1,0 +1,18 @@
+
+
+airlfow db reset # only if we want to reset everything
+
+airlfow db init # to init db
+
+
+# create user
+airflow users create \
+          --username admin \
+          --firstname YANNICK \   
+          --lastname FLORES \   
+          --role Admin \
+          --email yannick.flores1992@gmail.com
+
+pwd = admin
+
+airflow webserver # acces the ip addres where airlfow is installed

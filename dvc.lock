@@ -71,8 +71,8 @@ stages:
     cmd:
     - python3 -m src.transform.gamelog_schedule_unification  --gamelog-data-path ./pipeline_output/gamelog/
       --gamelog-name-pattern gamelog --schedule-data-path ./pipeline_output/schedule/
-      --schedule-name-pattern schedule --unified-file-path ./pipeline_output/final/
-      --unified-file-name nba_games_training_dataset
+      --schedule-name-pattern schedule --unified-file-path ./pipeline_output/final
+      --unified-file-name nba_gamelog_schedule_dataset
     deps:
     - path: src/transform/gamelog_schedule_unification.py
       hash: md5
@@ -87,8 +87,8 @@ stages:
           data_type: gamelog
           output_folder: pipeline_output/gamelog/
         gamelog_schedule_unification:
-          data_path: pipeline_output/final/
-          file_name: nba_games_training_dataset
+          data_path: pipeline_output/final
+          file_name: nba_gamelog_schedule_dataset
         schedule_data_acquisition:
           team: all
           data_type: schedule
@@ -142,15 +142,15 @@ stages:
     deps:
     - path: src/load/load_gamelog_schedule_unified_to_db.py
       hash: md5
-      md5: d3facad82595bd7d444c99506dd89eb1
-      size: 2993
+      md5: fd9c8144a3ef9833dc3d8e1571028185
+      size: 3233
     params:
       params.yaml:
         base:
           log_level: INFO
         gamelog_schedule_unification:
-          data_path: pipeline_output/final/
-          file_name: nba_games_training_dataset
+          data_path: pipeline_output/final
+          file_name: nba_gamelog_schedule_dataset
         load_gamelog_schedule_unified_to_db:
           test: test
   load_player_attributes_salaries_unified_to_db:
@@ -189,7 +189,7 @@ stages:
   gamelog_data_acquisition@2024:
     cmd:
     - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
-      2024 --team ATL --output-folder ./pipeline_output/gamelog/
+      2024 --team all --output-folder ./pipeline_output/gamelog/
     deps:
     - path: src/exctract/gamelog_data_acquisition.py
       hash: md5
@@ -200,7 +200,7 @@ stages:
         base:
           log_level: INFO
         gamelog_data_acquisition:
-          team: ATL
+          team: all
           data_type: gamelog
           output_folder: pipeline_output/gamelog/
   schedule_data_acquisition@2023:
@@ -223,7 +223,7 @@ stages:
   schedule_data_acquisition@2024:
     cmd:
     - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
-      2024 --team ATL --output-folder ./pipeline_output/schedule/
+      2024 --team all --output-folder ./pipeline_output/schedule/
     deps:
     - path: src/exctract/schedule_data_acquisition.py
       hash: md5
@@ -234,7 +234,7 @@ stages:
         base:
           log_level: INFO
         schedule_data_acquisition:
-          team: ATL
+          team: all
           data_type: schedule
           output_folder: pipeline_output/schedule/
   player_attributes_data_acquisition@2023:
@@ -257,7 +257,7 @@ stages:
   player_attributes_data_acquisition@2024:
     cmd:
     - python3 -m src.exctract.player_attributes_data_acquisition  --data-type player_attributes
-      --season 2024 --team ATL --output-folder ./pipeline_output/player_attributes/
+      --season 2024 --team all --output-folder ./pipeline_output/player_attributes/
     deps:
     - path: src/exctract/player_attributes_data_acquisition.py
       hash: md5
@@ -268,7 +268,7 @@ stages:
         base:
           log_level: INFO
         player_attributes_data_acquisition:
-          team: ATL
+          team: all
           data_type: player_attributes
           output_folder: pipeline_output/player_attributes/
   player_salary_data_acquisition@2023:
@@ -291,6 +291,73 @@ stages:
     cmd:
     - python3 -m src.exctract.player_salary_data_acquisition  --data-type player_salary
       --season 2024 --output-folder ./pipeline_output/player_salary/
+    deps:
+    - path: src/exctract/player_salary_data_acquisition.py
+      hash: md5
+      md5: 34afe34f2c46f8718e61bdf233a0f1c8
+      size: 5710
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_salary_data_acquisition:
+          data_type: player_salary
+          output_folder: pipeline_output/player_salary/
+  gamelog_data_acquisition@2025:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2025 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+  schedule_data_acquisition@2025:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2025 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+  player_attributes_data_acquisition@2025:
+    cmd:
+    - python3 -m src.exctract.player_attributes_data_acquisition  --data-type player_attributes
+      --season 2025 --team all --output-folder ./pipeline_output/player_attributes/
+    deps:
+    - path: src/exctract/player_attributes_data_acquisition.py
+      hash: md5
+      md5: b26f4abfcc576d77867135edfbfdcd26
+      size: 3428
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_attributes_data_acquisition:
+          team: all
+          data_type: player_attributes
+          output_folder: pipeline_output/player_attributes/
+  player_salary_data_acquisition@2025:
+    cmd:
+    - python3 -m src.exctract.player_salary_data_acquisition  --data-type player_salary
+      --season 2025 --output-folder ./pipeline_output/player_salary/
     deps:
     - path: src/exctract/player_salary_data_acquisition.py
       hash: md5
