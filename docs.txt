@@ -1,6 +1,9 @@
 # Airflow set up
 https://numberly.tech/orchestrating-python-workflows-in-apache-airflow-fd8be71ad504
 
+# NBA Stats API Docs
+https://documenter.getpostman.com/view/24232555/2s93shzpR3#nba-stats-api-documentation
+
 # MySQL set up
 https://sebrave.medium.com/how-to-spin-up-a-local-mysql-database-on-macos-a550918f092b
 

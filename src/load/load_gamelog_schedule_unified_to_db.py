@@ -41,17 +41,24 @@ def load_gamelog_schedule_unified_to_db(config_path: Text) -> pd.DataFrame:
     nba_games_training_dataset = pd.read_csv(name_and_path_file)
     nba_games_training_dataset = nba_games_training_dataset.reset_index(drop=True)
 
-    engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
-                        .format(user=os.getenv('MYSQL_USERNAME'),
-                                pw=os.getenv("MYSQL_PASSWORD"),
-                                host=os.getenv("MYSQL_HOST"),
-                                db=os.getenv("MYSQL_DATABASE")))
+    # engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
+    #                     .format(user=os.getenv('MYSQL_USERNAME'),
+    #                             pw=os.getenv("MYSQL_PASSWORD"),
+    #                             host=os.getenv("MYSQL_HOST"),
+    #                             db=os.getenv("MYSQL_DATABASE")))
     
+    engine = create_engine(
+        f"mysql+pymysql://{os.getenv('MYSQL_USERNAME')}:{os.getenv('MYSQL_PASSWORD')}"
+        f"@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}", echo=False
+    )
+
     nba_games_training_dataset.to_sql(
         con=engine, 
         index=False,
         name=gamelog_schedule_name, 
         if_exists='append')
+    
+    sys.exit()
     
     with engine.connect() as conn:
         query1 = text("""
