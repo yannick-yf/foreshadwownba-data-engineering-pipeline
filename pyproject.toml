@@ -9,16 +9,16 @@ packages = [{include = "foreshadwownba_data_engineering_pipeline"}]
 [tool.poetry.dependencies]
 python = "3.11.9"
 ipykernel = "*"
-pandas = "*"
+pandas = "2.0.0"
 beautifulsoup4 = "*"
 lxml = "*"
 requests = "*"
 basketball-reference-webscrapper = "0.4.2"
 dvc = {extras = ["s3"], version = "^3.38.1"}
 pymysql = "*"
-sqlalchemy = "*"
+sqlalchemy = "1.4.*"
 python-dotenv  = "*"
-apache-airflow = "*"
+apache-airflow = "2.10.0"
 kubernetes = "*"
 virtualenv = "*"
 

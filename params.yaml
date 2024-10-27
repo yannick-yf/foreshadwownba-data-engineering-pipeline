@@ -1,11 +1,9 @@
-
 base:
   log_level: INFO
 
 global_params:
   season:
-    - 2024
-
+  - 2025
 gamelog_data_acquisition:
   team: all
   data_type: gamelog
@@ -26,8 +24,8 @@ player_salary_data_acquisition:
   output_folder: pipeline_output/player_salary/
 
 gamelog_schedule_unification:
-  data_path: pipeline_output/final/
-  file_name: nba_games_training_dataset
+  data_path: pipeline_output/final
+  file_name: nba_gamelog_schedule_dataset
 
 player_attributes_salaries_unification:
   data_path: pipeline_output/final/
