@@ -17,4 +17,4 @@ jobs:
       - uses: iterative/setup-cml@v2
       - name: Run Data Engineering Pipeline
         run: |
-          poetry run dvc repro
+          poetry run dvc repro -f
