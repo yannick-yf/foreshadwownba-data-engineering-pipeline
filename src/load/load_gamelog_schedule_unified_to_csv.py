@@ -55,7 +55,7 @@ def load_gamelog_schedule_unified_to_csv(config_path: Text) -> pd.DataFrame:
 
     # NExt step will be to save it in S3
     # TODO Save to s3 bucket
-
+    logger.info("Shape of the data: " + str(nba_games_training_dataset.shape[0]))
     logger.info("Load Gamelog and Schedule Data to Database complete")
 
 
