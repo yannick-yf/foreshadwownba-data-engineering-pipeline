@@ -1,5 +1,8 @@
 name: CML
-on: [push]
+#on: [push]
+on:
+  schedule:
+    - cron: "*/30 * * * *"
 jobs:
   data-engineering-pipeline:
     runs-on: ubuntu-latest
