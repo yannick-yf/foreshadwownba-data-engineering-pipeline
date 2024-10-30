@@ -19,7 +19,7 @@ def gamelog_schedule_unification(
         gamelog_name_pattern: str = 'gamelog',
         schedule_data_path: Path ='pipeline_output/schedule/',
         schedule_name_pattern: str = 'schedule',
-        unified_file_path: Path ='pipeline_output/final/',
+        unified_file_path: Path ='pipeline_output/unified/',
         unified_file_name: str = 'nba_games_training_dataset'
         ) -> None:
     """
@@ -81,6 +81,15 @@ def gamelog_schedule_unification(
         left_on=["id_season", "tm", "game_date"],
         right_on=["id_season", "tm", "game_date"],
     )
+
+    #-------------------------------------------
+    # Check for Duplciate and raise errors
+    nb_duplicated_rows = nba_games_training_dataset.duplicated(subset=["id_season", "tm", "game_date"], keep='first').sum()
+
+    if nb_duplicated_rows > 0:
+        logger.info('DUPLICATED ROWS IN THE DATAFRAME')
+
+    nba_games_training_dataset = nba_games_training_dataset.drop_duplicates(subset=["id_season", "tm", "game_date"])
 
     #-------------------------------------------
     # Ext Dom Process

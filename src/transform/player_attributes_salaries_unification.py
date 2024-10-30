@@ -22,7 +22,7 @@ def player_attributes_salaries_unification(
         player_attributes_name_pattern: str = 'player_attributes',
         player_salary_data_path: Path ='pipeline_output/player_salary/',
         player_salary_name_pattern: str = 'player_salary',
-        output_dest_file_path: Path ='pipeline_output/final/',
+        output_dest_file_path: Path ='pipeline_output/unified/',
         output_file_name: str = 'player_attributes_salaries_dataset'
         ) -> None:
     """
@@ -168,6 +168,15 @@ def player_attributes_salaries_unification(
             "salary",
         ]
     ]
+
+    #-------------------------------------------
+    # Check for Duplciate and raise errors
+    nb_duplicated_rows = player_info.duplicated(subset=["id_season", "tm", "Name"], keep='first').sum()
+
+    if nb_duplicated_rows > 0:
+        logger.info('DUPLICATED ROWS IN THE DATAFRAME: ' + str(nb_duplicated_rows))
+
+    player_info = player_info.drop_duplicates(subset=["id_season", "tm", "Name"])
 
     # ------------------------------------------
     # Saving final training dataset
