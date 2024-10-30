@@ -1,0 +1,20 @@
+name: CML
+on: [push]
+jobs:
+  data-engineering-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Poetry
+        run: pipx install poetry
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: "poetry"
+      - name: Install dependencies
+        run: poetry install --no-root
+      - uses: iterative/setup-cml@v2
+      - name: Run Data Engineering Pipeline
+        run: |
+          poetry run dvc repro
