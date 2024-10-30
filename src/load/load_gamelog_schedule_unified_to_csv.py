@@ -17,7 +17,7 @@ import os
 # importing necessary functions from dotenv library
 from dotenv import load_dotenv 
 
-def load_gamelog_schedule_unified_to_db(config_path: Text) -> pd.DataFrame:
+def load_gamelog_schedule_unified_to_csv(config_path: Text) -> pd.DataFrame:
     """Load raw data.
     Args:
         config_path {Text}: path to config
@@ -41,45 +41,13 @@ def load_gamelog_schedule_unified_to_db(config_path: Text) -> pd.DataFrame:
     nba_games_training_dataset = pd.read_csv(name_and_path_file)
     nba_games_training_dataset = nba_games_training_dataset.reset_index(drop=True)
 
-    # engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
-    #                     .format(user=os.getenv('MYSQL_USERNAME'),
-    #                             pw=os.getenv("MYSQL_PASSWORD"),
-    #                             host=os.getenv("MYSQL_HOST"),
-    #                             db=os.getenv("MYSQL_DATABASE")))
-    
-    engine = create_engine(
-        f"mysql+pymysql://{os.getenv('MYSQL_USERNAME')}:{os.getenv('MYSQL_PASSWORD')}"
-        f"@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}", echo=False
-    )
+    # Name of the flat files
+    # nba_gamelog_schedule_dataset
 
-    nba_games_training_dataset.to_sql(
-        con=engine, 
-        index=False,
-        name=gamelog_schedule_name, 
-        if_exists='append')
-    
-    sys.exit()
-    
-    with engine.connect() as conn:
-        query1 = text("""
-            ALTER TABLE nba_gamelog_schedule_dataset ADD COLUMN count_ID int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY;
-        """)
-        query2 = text("""
-            DELETE FROM nba_gamelog_schedule_dataset
-            WHERE count_ID not in (
-                SELECT count_ID FROM (
-                    SELECT max(count_ID) as count_ID
-                    FROM nba_gamelog_schedule_dataset
-                    GROUP BY id, game_date, tm, opp
-                    ) as c
-                );
-        """)
-        query3 = text("""
-            ALTER TABLE nba_gamelog_schedule_dataset DROP count_ID;
-        """)
-        conn.execute(query1 )
-        conn.execute(query2)
-        conn.execute(query3)
+    nba_games_training_dataset.to_csv(name_and_path_file, index=False)
+
+    # NExt step will be to save it in S3
+    # TODO Save to s3 bucket
 
     logger.info("Load Gamelog and Schedule Data to Database complete")
 
@@ -92,4 +60,4 @@ if __name__ == "__main__":
 
     args = arg_parser.parse_args()
 
-    load_gamelog_schedule_unified_to_db(config_path=args.config_params)
+    load_gamelog_schedule_unified_to_csv(config_path=args.config_params)

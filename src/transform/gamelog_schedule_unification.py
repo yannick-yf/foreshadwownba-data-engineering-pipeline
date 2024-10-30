@@ -83,6 +83,15 @@ def gamelog_schedule_unification(
     )
 
     #-------------------------------------------
+    # Check for Duplciate and raise errors
+    nb_duplicated_rows = nba_games_training_dataset.duplicated(subset=["id_season", "tm", "game_date"], keep='first').sum()
+
+    if nb_duplicated_rows > 0:
+        logger.info('DUPLICATED ROWS IN THE DATAFRAME')
+
+    nba_games_training_dataset = nba_games_training_dataset.drop_duplicates(subset=["id_season", "tm", "game_date"])
+
+    #-------------------------------------------
     # Ext Dom Process
 
     nba_games_training_dataset['extdom'] = np.where(

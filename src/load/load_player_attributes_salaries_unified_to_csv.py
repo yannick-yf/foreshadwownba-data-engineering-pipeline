@@ -15,7 +15,7 @@ from sqlalchemy import text
 import os
 from dotenv import load_dotenv 
 
-def load_player_attributes_salaries_unified_to_db(config_path: Text) -> pd.DataFrame:
+def load_player_attributes_salaries_unified_to_csv(config_path: Text) -> pd.DataFrame:
     """Load raw data.
     Args:
         config_path {Text}: path to config
@@ -39,41 +39,12 @@ def load_player_attributes_salaries_unified_to_db(config_path: Text) -> pd.DataF
     player_attributes_salaries_dataset = pd.read_csv(name_and_path_file)
     player_attributes_salaries_dataset = player_attributes_salaries_dataset.reset_index(drop=True)
 
-    engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
-                        .format(user=os.getenv('MYSQL_USERNAME'),
-                                pw=os.getenv("MYSQL_PASSWORD"),
-                                host=os.getenv("MYSQL_HOST"),
-                                db=os.getenv("MYSQL_DATABASE")))
-    
-    player_attributes_salaries_dataset.to_sql(
-        con=engine, 
-        index=False,
-        name=player_attributes_salaries_name, 
-        if_exists='append')
-    
-    with engine.connect() as conn:
-        query1 = text("""
-            ALTER TABLE player_attributes_salaries_dataset ADD COLUMN count_ID int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY;
-        """)
-        query2 = text("""
-            DELETE FROM player_attributes_salaries_dataset
-            WHERE count_ID not in (
-                SELECT count_ID FROM (
-                    SELECT max(count_ID) as count_ID
-                    FROM player_attributes_salaries_dataset
-                    GROUP BY id_season, tm, Name, Position
-                    ) as c
-                );
-        """)
-        query3 = text("""
-            ALTER TABLE player_attributes_salaries_dataset DROP count_ID;
-        """)
-        conn.execute(query1)
-        conn.execute(query2)
-        conn.execute(query3)
+    player_attributes_salaries_dataset.to_csv(name_and_path_file, index=False)
+
+    # NExt step will be to save it in S3
+    # TODO Save to s3 bucket
 
     logger.info("Load Player and Attributes Data to Database complete")
-
 
 if __name__ == "__main__":
 
@@ -83,4 +54,4 @@ if __name__ == "__main__":
 
     args = arg_parser.parse_args()
 
-    load_player_attributes_salaries_unified_to_db(config_path=args.config_params)
+    load_player_attributes_salaries_unified_to_csv(config_path=args.config_params)

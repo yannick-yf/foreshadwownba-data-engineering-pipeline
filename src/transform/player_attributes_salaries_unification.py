@@ -169,6 +169,15 @@ def player_attributes_salaries_unification(
         ]
     ]
 
+    #-------------------------------------------
+    # Check for Duplciate and raise errors
+    nb_duplicated_rows = player_info.duplicated(subset=["id_season", "tm", "Name"], keep='first').sum()
+
+    if nb_duplicated_rows > 0:
+        logger.info('DUPLICATED ROWS IN THE DATAFRAME: ' + str(nb_duplicated_rows))
+
+    player_info = player_info.drop_duplicates(subset=["id_season", "tm", "Name"])
+
     # ------------------------------------------
     # Saving final training dataset
 
