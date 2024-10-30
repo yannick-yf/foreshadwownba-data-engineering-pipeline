@@ -31,15 +31,19 @@ def load_player_attributes_salaries_unified_to_csv(config_path: Text) -> pd.Data
     )
 
     # Read the data to insert into the db
-    player_attributes_salaries_path = config_params["player_attributes_salaries_unification"]["data_path"]
-    player_attributes_salaries_name = config_params["player_attributes_salaries_unification"]["file_name"]
+    player_attributes_salaries_input_path = config_params["player_attributes_salaries_unification"]["data_path"]
+    player_attributes_salaries_input_name = config_params["player_attributes_salaries_unification"]["file_name"]
 
-    name_and_path_file = str(player_attributes_salaries_path) + '/' + player_attributes_salaries_name + ".csv"
+    player_attributes_salaries_output_path = config_params["load_player_attributes_salaries_unified_to_csv"]["data_path"]
+    player_attributes_salaries_output_name = config_params["load_player_attributes_salaries_unified_to_csv"]["file_name"]
 
-    player_attributes_salaries_dataset = pd.read_csv(name_and_path_file)
+    input_name_and_path_file = str(player_attributes_salaries_input_path) + '/' + player_attributes_salaries_input_name + ".csv"
+    output_name_and_path_file = str(player_attributes_salaries_output_path) + '/' + player_attributes_salaries_output_name + ".csv"
+    
+    player_attributes_salaries_dataset = pd.read_csv(input_name_and_path_file)
     player_attributes_salaries_dataset = player_attributes_salaries_dataset.reset_index(drop=True)
 
-    player_attributes_salaries_dataset.to_csv(name_and_path_file, index=False)
+    player_attributes_salaries_dataset.to_csv(output_name_and_path_file, index=False)
 
     # NExt step will be to save it in S3
     # TODO Save to s3 bucket

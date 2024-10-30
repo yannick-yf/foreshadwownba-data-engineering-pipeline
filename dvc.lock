@@ -71,13 +71,13 @@ stages:
     cmd:
     - python3 -m src.transform.gamelog_schedule_unification  --gamelog-data-path ./pipeline_output/gamelog/
       --gamelog-name-pattern gamelog --schedule-data-path ./pipeline_output/schedule/
-      --schedule-name-pattern schedule --unified-file-path ./pipeline_output/final
+      --schedule-name-pattern schedule --unified-file-path ./pipeline_output/unified
       --unified-file-name nba_gamelog_schedule_dataset
     deps:
     - path: src/transform/gamelog_schedule_unification.py
       hash: md5
-      md5: 9b7b3b570ee0c662fd1c240710c5fcd8
-      size: 6607
+      md5: 4e773c48b2057418a3902b4aeb608a9e
+      size: 6609
     params:
       params.yaml:
         base:
@@ -87,14 +87,14 @@ stages:
           data_type: gamelog
           output_folder: pipeline_output/gamelog/
         gamelog_schedule_unification:
-          data_path: pipeline_output/final
+          data_path: pipeline_output/unified
           file_name: nba_gamelog_schedule_dataset
         schedule_data_acquisition:
           team: all
           data_type: schedule
           output_folder: pipeline_output/schedule/
     outs:
-    - path: pipeline_output/final/nba_gamelog_schedule_dataset.csv
+    - path: pipeline_output/unified/nba_gamelog_schedule_dataset.csv
       hash: md5
       md5: 6e036a930da4cb9ccef173c0deab0c7e
       size: 6702011
@@ -104,13 +104,13 @@ stages:
       ./pipeline_output/schedule/ --schedule-name-pattern schedule --player-attributes-data-path
       ./pipeline_output/player_attributes/ --player-attributes-name-pattern player_attributes
       --player-salary-data-path ./pipeline_output/player_salary/ --player-salary-name-pattern
-      player_salary --output-dest-file-path ./pipeline_output/final --output-file-name
+      player_salary --output-dest-file-path ./pipeline_output/unified --output-file-name
       player_attributes_salaries_dataset
     deps:
     - path: src/transform/player_attributes_salaries_unification.py
       hash: md5
-      md5: a9e4613de809a33c9195e40119aafb22
-      size: 9685
+      md5: d90878be713ed7a770e74e8cee77f3d6
+      size: 9687
     params:
       params.yaml:
         base:
@@ -120,7 +120,7 @@ stages:
           data_type: player_attributes
           output_folder: pipeline_output/player_attributes/
         player_attributes_salaries_unification:
-          data_path: pipeline_output/final
+          data_path: pipeline_output/unified
           file_name: player_attributes_salaries_dataset
         player_salary_data_acquisition:
           data_type: player_salary
@@ -130,7 +130,7 @@ stages:
           data_type: schedule
           output_folder: pipeline_output/schedule/
     outs:
-    - path: pipeline_output/final/player_attributes_salaries_dataset.csv
+    - path: pipeline_output/unified/player_attributes_salaries_dataset.csv
       hash: md5
       md5: 6f41c7ac830e17aa1f778539a80742cc
       size: 501148
@@ -383,40 +383,52 @@ stages:
   load_gamelog_schedule_unified_to_csv:
     cmd: python3 -m src.load.load_gamelog_schedule_unified_to_csv --config=params.yaml
     deps:
-    - path: pipeline_output/final/nba_gamelog_schedule_dataset.csv
+    - path: pipeline_output/unified/nba_gamelog_schedule_dataset.csv
       hash: md5
       md5: 6e036a930da4cb9ccef173c0deab0c7e
       size: 6702011
     - path: src/load/load_gamelog_schedule_unified_to_csv.py
       hash: md5
-      md5: da3ecac884af13cb2392a54cf6f58f3d
-      size: 1960
+      md5: c403b6bd0b5f18c408e242d8624ad1d1
+      size: 2320
     params:
       params.yaml:
         base:
           log_level: INFO
         gamelog_schedule_unification:
-          data_path: pipeline_output/final
+          data_path: pipeline_output/unified
           file_name: nba_gamelog_schedule_dataset
         load_gamelog_schedule_unified_to_csv:
-          test: test
+          data_path: pipeline_output/final
+          file_name: nba_gamelog_schedule_dataset
+    outs:
+    - path: pipeline_output/final/nba_gamelog_schedule_dataset.csv
+      hash: md5
+      md5: 6e036a930da4cb9ccef173c0deab0c7e
+      size: 6702011
   load_player_attributes_salaries_unified_to_csv:
     cmd: python3 -m src.load.load_player_attributes_salaries_unified_to_csv --config=params.yaml
     deps:
-    - path: pipeline_output/final/player_attributes_salaries_dataset.csv
+    - path: pipeline_output/unified/player_attributes_salaries_dataset.csv
       hash: md5
-      md5: 897cc87a4fb50624c424ae6375fcee93
-      size: 490224
+      md5: 6f41c7ac830e17aa1f778539a80742cc
+      size: 501148
     - path: src/load/load_player_attributes_salaries_unified_to_csv.py
       hash: md5
-      md5: 22b875e1da6c73c1872db401066df130
-      size: 1982
+      md5: 59a878d214364211f46e4971555dad0f
+      size: 2406
     params:
       params.yaml:
         base:
           log_level: INFO
         load_player_attributes_salaries_unified_to_csv:
-          test: test
-        player_attributes_salaries_unification:
           data_path: pipeline_output/final
           file_name: player_attributes_salaries_dataset
+        player_attributes_salaries_unification:
+          data_path: pipeline_output/unified
+          file_name: player_attributes_salaries_dataset
+    outs:
+    - path: pipeline_output/final/player_attributes_salaries_dataset.csv
+      hash: md5
+      md5: 897cc87a4fb50624c424ae6375fcee93
+      size: 490224

@@ -24,15 +24,17 @@ player_salary_data_acquisition:
   output_folder: pipeline_output/player_salary/
 
 gamelog_schedule_unification:
-  data_path: pipeline_output/final
+  data_path: pipeline_output/unified
   file_name: nba_gamelog_schedule_dataset
 
 player_attributes_salaries_unification:
-  data_path: pipeline_output/final
+  data_path: pipeline_output/unified
   file_name: player_attributes_salaries_dataset
 
 load_gamelog_schedule_unified_to_csv:
-  test: test
+  data_path: pipeline_output/final
+  file_name: nba_gamelog_schedule_dataset
 
 load_player_attributes_salaries_unified_to_csv:
-  test: test
+  data_path: pipeline_output/final
+  file_name: player_attributes_salaries_dataset

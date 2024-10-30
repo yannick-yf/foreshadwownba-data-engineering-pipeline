@@ -22,7 +22,7 @@ def player_attributes_salaries_unification(
         player_attributes_name_pattern: str = 'player_attributes',
         player_salary_data_path: Path ='pipeline_output/player_salary/',
         player_salary_name_pattern: str = 'player_salary',
-        output_dest_file_path: Path ='pipeline_output/final/',
+        output_dest_file_path: Path ='pipeline_output/unified/',
         output_file_name: str = 'player_attributes_salaries_dataset'
         ) -> None:
     """

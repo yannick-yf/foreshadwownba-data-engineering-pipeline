@@ -33,18 +33,22 @@ def load_gamelog_schedule_unified_to_csv(config_path: Text) -> pd.DataFrame:
     )
 
     # Read the data to insert into the db
-    gamelog_schedule_path = config_params["gamelog_schedule_unification"]["data_path"]
-    gamelog_schedule_name = config_params["gamelog_schedule_unification"]["file_name"]
+    gamelog_schedule_input_path = config_params["gamelog_schedule_unification"]["data_path"]
+    gamelog_schedule_input_name = config_params["gamelog_schedule_unification"]["file_name"]
 
-    name_and_path_file = str(gamelog_schedule_path) + '/' + gamelog_schedule_name + ".csv"
+    gamelog_schedule_output_path = config_params["load_gamelog_schedule_unified_to_csv"]["data_path"]
+    gamelog_schedule_output_name = config_params["load_gamelog_schedule_unified_to_csv"]["file_name"]
 
-    nba_games_training_dataset = pd.read_csv(name_and_path_file)
+    input_name_and_path_file = str(gamelog_schedule_input_path) + '/' + gamelog_schedule_input_name + ".csv"
+    output_name_and_path_file = str(gamelog_schedule_output_path) + '/' + gamelog_schedule_output_name + ".csv"
+
+    nba_games_training_dataset = pd.read_csv(input_name_and_path_file)
     nba_games_training_dataset = nba_games_training_dataset.reset_index(drop=True)
 
     # Name of the flat files
     # nba_gamelog_schedule_dataset
 
-    nba_games_training_dataset.to_csv(name_and_path_file, index=False)
+    nba_games_training_dataset.to_csv(output_name_and_path_file, index=False)
 
     # NExt step will be to save it in S3
     # TODO Save to s3 bucket

@@ -19,7 +19,7 @@ def gamelog_schedule_unification(
         gamelog_name_pattern: str = 'gamelog',
         schedule_data_path: Path ='pipeline_output/schedule/',
         schedule_name_pattern: str = 'schedule',
-        unified_file_path: Path ='pipeline_output/final/',
+        unified_file_path: Path ='pipeline_output/unified/',
         unified_file_name: str = 'nba_games_training_dataset'
         ) -> None:
     """
