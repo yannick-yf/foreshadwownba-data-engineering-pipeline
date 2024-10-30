@@ -389,8 +389,8 @@ stages:
       size: 6702011
     - path: src/load/load_gamelog_schedule_unified_to_csv.py
       hash: md5
-      md5: c403b6bd0b5f18c408e242d8624ad1d1
-      size: 2320
+      md5: a03acb2e886f837aef2d528c46cc8788
+      size: 2449
     params:
       params.yaml:
         base:

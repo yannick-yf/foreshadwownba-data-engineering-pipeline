@@ -47,6 +47,9 @@ def load_gamelog_schedule_unified_to_csv(config_path: Text) -> pd.DataFrame:
 
     # Name of the flat files
     # nba_gamelog_schedule_dataset
+    isExist = os.path.exists(gamelog_schedule_output_path)
+    if not isExist:
+        os.makedirs(gamelog_schedule_output_path)
 
     nba_games_training_dataset.to_csv(output_name_and_path_file, index=False)
 
