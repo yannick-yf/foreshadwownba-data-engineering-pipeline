@@ -1,5 +1,6 @@
 name: CML
 on:
+  push:
   workflow_dispatch:
   schedule:
     - cron: 15 09 * * *
