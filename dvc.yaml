@@ -1,4 +1,3 @@
-#dvc repro linear/dvc.yaml
 vars:
   - project:
       directory: .
@@ -18,6 +17,8 @@ stages:
       params:
         - base
         - gamelog_data_acquisition
+      outs:
+        - ${project.directory}/${gamelog_data_acquisition.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
   schedule_data_acquisition:
     foreach: ${global_params.season}
     do:
@@ -33,97 +34,56 @@ stages:
       params:
         - base
         - schedule_data_acquisition
-  # player_attributes_data_acquisition:
-  #   foreach: ${global_params.season}
-  #   do:
-  #     cmd:
-  #     - >- 
-  #       python3 -m src.exctract.player_attributes_data_acquisition 
-  #       --data-type ${player_attributes_data_acquisition.data_type}
-  #       --season ${item}
-  #       --team ${player_attributes_data_acquisition.team}
-  #       --output-folder ${project.directory}/${player_attributes_data_acquisition.output_folder}
-  #     deps:
-  #       - src/exctract/player_attributes_data_acquisition.py
-  #     params:
-  #       - base
-  #       - player_attributes_data_acquisition
-  # player_salary_data_acquisition:
-  #   foreach: ${global_params.season}
-  #   do:
-  #     cmd:
-  #     - >- 
-  #       python3 -m src.exctract.player_salary_data_acquisition 
-  #       --data-type ${player_salary_data_acquisition.data_type}
-  #       --season ${item}
-  #       --output-folder ${project.directory}/${player_salary_data_acquisition.output_folder}
-  #     deps:
-  #       - src/exctract/player_salary_data_acquisition.py
-  #     params:
-  #       - base
-  #       - player_salary_data_acquisition
-  gamelog_schedule_unification:
-    cmd: 
-    - >- 
-      python3 -m src.transform.gamelog_schedule_unification 
-      --gamelog-data-path ${project.directory}/${gamelog_data_acquisition.output_folder}
-      --gamelog-name-pattern ${gamelog_data_acquisition.data_type}
-      --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
-      --schedule-name-pattern ${schedule_data_acquisition.data_type}
-      --unified-file-path ${project.directory}/${gamelog_schedule_unification.data_path}
-      --unified-file-name ${gamelog_schedule_unification.file_name}
-    deps:
-      - src/transform/gamelog_schedule_unification.py
-    params:
-      - base
-      - gamelog_schedule_unification
-      - schedule_data_acquisition
-      - gamelog_data_acquisition
-    outs:
-      - pipeline_output/unified/nba_gamelog_schedule_dataset.csv
-  # player_attributes_salaries_unification:
-  #   cmd: 
-  #   - >- 
-  #     python3 -m src.transform.player_attributes_salaries_unification
-  #     --schedule-data-path ${project.directory}/${schedule_data_acquisition.output_folder}
-  #     --schedule-name-pattern ${schedule_data_acquisition.data_type}
-  #     --player-attributes-data-path ${project.directory}/${player_attributes_data_acquisition.output_folder}
-  #     --player-attributes-name-pattern ${player_attributes_data_acquisition.data_type}
-  #     --player-salary-data-path ${project.directory}/${player_salary_data_acquisition.output_folder}
-  #     --player-salary-name-pattern ${player_salary_data_acquisition.data_type}
-  #     --output-dest-file-path ${project.directory}/${player_attributes_salaries_unification.data_path}
-  #     --output-file-name ${player_attributes_salaries_unification.file_name}
-  #   deps:
-  #     - src/transform/player_attributes_salaries_unification.py
-  #   params:
-  #     - base
-  #     - player_attributes_salaries_unification
-  #     - schedule_data_acquisition
-  #     - player_attributes_data_acquisition
-  #     - player_salary_data_acquisition
-  #   outs:
-  #     - pipeline_output/unified/player_attributes_salaries_dataset.csv
-  load_gamelog_schedule_unified_to_csv:
-    cmd: python3 -m src.load.load_gamelog_schedule_unified_to_csv --config=params.yaml
-    deps:
-      - src/load/load_gamelog_schedule_unified_to_csv.py
-      - pipeline_output/unified/nba_gamelog_schedule_dataset.csv
-    params:
-      - base
-      - load_gamelog_schedule_unified_to_csv
-      - gamelog_schedule_unification
-    outs:
-      - pipeline_output/final/nba_gamelog_schedule_dataset.csv
-  # load_player_attributes_salaries_unified_to_csv:
-  #   cmd: python3 -m src.load.load_player_attributes_salaries_unified_to_csv --config=params.yaml
-  #   deps:
-  #     - src/load/load_player_attributes_salaries_unified_to_csv.py
-  #     - pipeline_output/unified/player_attributes_salaries_dataset.csv
-  #   params:
-  #     - base
-  #     - load_player_attributes_salaries_unified_to_csv
-  #     - player_attributes_salaries_unification
-  #   outs:
-  #     - pipeline_output/final/player_attributes_salaries_dataset.csv
-
-
+      outs:
+        - ${project.directory}/${schedule_data_acquisition.output_folder}/${schedule_data_acquisition.data_type}_${item}_${schedule_data_acquisition.team}.csv
+  gamelog_cleaning_and_transformation:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >- 
+        python3 -m src.transform.gamelog_cleaning_and_transformation 
+        --file-name ${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}
+        --input-folder ${project.directory}/${gamelog_data_acquisition.output_folder}
+        --output-folder ${project.directory}/${gamelog_cleaning_and_transformation.output_folder}
+      deps:
+        - src/transform/gamelog_cleaning_and_transformation.py
+        - ${project.directory}/${gamelog_data_acquisition.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
+      params:
+        - base
+        - gamelog_data_acquisition
+        - gamelog_cleaning_and_transformation
+      outs:
+        - ${project.directory}/${gamelog_cleaning_and_transformation.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
+  schedule_cleaning_and_transformation:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >- 
+        python3 -m src.transform.schedule_cleaning_and_transformation 
+        --file-name ${schedule_data_acquisition.data_type}_${item}_${schedule_data_acquisition.team}
+        --input-folder ${project.directory}/${schedule_data_acquisition.output_folder}
+        --output-folder ${project.directory}/${schedule_cleaning_and_transformation.output_folder}
+      deps:
+        - src/transform/schedule_cleaning_and_transformation.py
+        - ${project.directory}/${schedule_data_acquisition.output_folder}/${schedule_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
+      params:
+        - base
+        - schedule_data_acquisition
+        - schedule_cleaning_and_transformation
+      outs:
+        - ${project.directory}/${schedule_cleaning_and_transformation.output_folder}/${schedule_data_acquisition.data_type}_${item}_${schedule_data_acquisition.team}.csv
+  writte_final_output_to_s3:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >-
+        aws s3 cp 
+        ${project.directory}/${gamelog_cleaning_and_transformation.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
+        s3://foreshadownba/data-engineering-pipeline-output/gamelogs/ --profile=ipfy
+      - >-
+        aws s3 cp 
+        ${project.directory}/${schedule_cleaning_and_transformation.output_folder}/${schedule_data_acquisition.data_type}_${item}_${schedule_data_acquisition.team}.csv
+        s3://foreshadownba/data-engineering-pipeline-output/schedules/ --profile=ipfy
+      deps:
+      - ${project.directory}/${schedule_cleaning_and_transformation.output_folder}/${schedule_data_acquisition.data_type}_${item}_${schedule_data_acquisition.team}.csv
+      - ${project.directory}/${gamelog_cleaning_and_transformation.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv

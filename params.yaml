@@ -4,6 +4,7 @@ base:
 global_params:
   season:
   - 2025
+
 gamelog_data_acquisition:
   team: all
   data_type: gamelog
@@ -13,6 +14,12 @@ schedule_data_acquisition:
   team: all
   data_type: schedule
   output_folder: pipeline_output/schedule/
+
+gamelog_cleaning_and_transformation:
+  output_folder: pipeline_output/gamelog_cleaned/
+
+schedule_cleaning_and_transformation:
+  output_folder: pipeline_output/schedule_cleaned/
 
 player_attributes_data_acquisition:
   team: all

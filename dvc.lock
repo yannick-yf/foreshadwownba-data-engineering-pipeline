@@ -182,7 +182,7 @@ stages:
   gamelog_data_acquisition@2023:
     cmd:
     - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
-      2023 --team ATL --output-folder ./pipeline_output/gamelog/
+      2023 --team all --output-folder ./pipeline_output/gamelog/
     deps:
     - path: src/exctract/gamelog_data_acquisition.py
       hash: md5
@@ -193,9 +193,14 @@ stages:
         base:
           log_level: INFO
         gamelog_data_acquisition:
-          team: ATL
+          team: all
           data_type: gamelog
           output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2023_all.csv
+      hash: md5
+      md5: 716134a1851577545836ddea91a9aa86
+      size: 347557
   gamelog_data_acquisition@2024:
     cmd:
     - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
@@ -213,10 +218,15 @@ stages:
           team: all
           data_type: gamelog
           output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2024_all.csv
+      hash: md5
+      md5: 535460e41477c2c9361458d808cfd68f
+      size: 347535
   schedule_data_acquisition@2023:
     cmd:
     - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
-      2023 --team ATL --output-folder ./pipeline_output/schedule/
+      2023 --team all --output-folder ./pipeline_output/schedule/
     deps:
     - path: src/exctract/schedule_data_acquisition.py
       hash: md5
@@ -227,9 +237,14 @@ stages:
         base:
           log_level: INFO
         schedule_data_acquisition:
-          team: ATL
+          team: all
           data_type: schedule
           output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2023_all.csv
+      hash: md5
+      md5: 3f7a4c3d8e2343942e93975f1fbbf465
+      size: 194799
   schedule_data_acquisition@2024:
     cmd:
     - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
@@ -247,6 +262,11 @@ stages:
           team: all
           data_type: schedule
           output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2024_all.csv
+      hash: md5
+      md5: fdc90fe685fc8ef1cca7caffa3fdd57c
+      size: 194306
   player_attributes_data_acquisition@2023:
     cmd:
     - python3 -m src.exctract.player_attributes_data_acquisition  --data-type player_attributes
@@ -330,6 +350,11 @@ stages:
           team: all
           data_type: gamelog
           output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2025_all.csv
+      hash: md5
+      md5: 173d92b75989d9e197ad58a6e9250cea
+      size: 25653
   schedule_data_acquisition@2025:
     cmd:
     - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
@@ -347,6 +372,11 @@ stages:
           team: all
           data_type: schedule
           output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2025_all.csv
+      hash: md5
+      md5: 1fd0594a0946fa7086d5db91a88996b8
+      size: 147177
   player_attributes_data_acquisition@2025:
     cmd:
     - python3 -m src.exctract.player_attributes_data_acquisition  --data-type player_attributes
@@ -432,3 +462,1605 @@ stages:
       hash: md5
       md5: 897cc87a4fb50624c424ae6375fcee93
       size: 490224
+  gamelog_cleaning_and_transformation@2023:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2023_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2023_all.csv
+      hash: md5
+      md5: 716134a1851577545836ddea91a9aa86
+      size: 347557
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2023_all.csv
+      hash: md5
+      md5: efa506a07b163990a9278f04d697ad44
+      size: 411762
+  gamelog_cleaning_and_transformation@2025:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2025_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2025_all.csv
+      hash: md5
+      md5: 173d92b75989d9e197ad58a6e9250cea
+      size: 25653
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2025_all.csv
+      hash: md5
+      md5: a0ce168a2c5fc9a4a74034973df8f3b9
+      size: 30366
+  schedule_cleaning_and_transformation@2025:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2025_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2025_all.csv
+      hash: md5
+      md5: 1fd0594a0946fa7086d5db91a88996b8
+      size: 147177
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2025_all.csv
+      hash: md5
+      md5: bad43aaaef68b1b4ab0789ebb25c33b7
+      size: 133841
+  gamelog_data_acquisition@2010:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2010 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2010_all.csv
+      hash: md5
+      md5: 25ab5ca06ded177dba368351fff23997
+      size: 342273
+  gamelog_data_acquisition@2011:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2011 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2011_all.csv
+      hash: md5
+      md5: 51fd5d23a10ec49aa279979b011f62b0
+      size: 342345
+  gamelog_data_acquisition@2012:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2012 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2012_all.csv
+      hash: md5
+      md5: 33e2c73828f3b6ce025ffd76265cfb1d
+      size: 275217
+  gamelog_data_acquisition@2013:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2013 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2013_all.csv
+      hash: md5
+      md5: 71d35728860553484373092b1d6dec64
+      size: 342640
+  gamelog_data_acquisition@2014:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2014 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2014_all.csv
+      hash: md5
+      md5: b829f9ad73d59418acc748e6a5c40c7a
+      size: 343523
+  gamelog_data_acquisition@2015:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2015 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2015_all.csv
+      hash: md5
+      md5: 53f18ed59f6426eccdd542a5b3f6e212
+      size: 343397
+  gamelog_data_acquisition@2016:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2016 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2016_all.csv
+      hash: md5
+      md5: c3001ec61c38fb3dd46dc713d03450ae
+      size: 344019
+  gamelog_data_acquisition@2017:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2017 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2017_all.csv
+      hash: md5
+      md5: 04281bcf72368a76f90836db91410555
+      size: 344883
+  gamelog_data_acquisition@2018:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2018 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2018_all.csv
+      hash: md5
+      md5: 5d044951740021eea06156c78220029c
+      size: 345175
+  gamelog_data_acquisition@2019:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2019 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2019_all.csv
+      hash: md5
+      md5: a4e7a8bae4ffd0c7689e16c28ee49a7e
+      size: 346687
+  gamelog_data_acquisition@2020:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2020 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2020_all.csv
+      hash: md5
+      md5: 64a35d87d9df41d93c3f5eaac3c96dc5
+      size: 298946
+  gamelog_data_acquisition@2021:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2021 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2021_all.csv
+      hash: md5
+      md5: 140a277c798a5fa23fd4923c345a6b73
+      size: 304631
+  gamelog_data_acquisition@2022:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2022 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2022_all.csv
+      hash: md5
+      md5: 9ad68ac87a260ef9e2f85f555f5aae39
+      size: 346957
+  schedule_data_acquisition@2010:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2010 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2010_all.csv
+      hash: md5
+      md5: ae2bcf90aff808964f397e1e2cf6b989
+      size: 191464
+  schedule_data_acquisition@2011:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2011 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2011_all.csv
+      hash: md5
+      md5: a579c41b90d4e3c13ad9ff560f059e2e
+      size: 191217
+  schedule_data_acquisition@2012:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2012 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2012_all.csv
+      hash: md5
+      md5: c8437cdd25148a2304422ff96b665037
+      size: 155965
+  schedule_data_acquisition@2013:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2013 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2013_all.csv
+      hash: md5
+      md5: bb8afb245e12497c3c0d89866fbb2ef7
+      size: 191343
+  schedule_data_acquisition@2014:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2014 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2014_all.csv
+      hash: md5
+      md5: a248532def0c193dc06913395cb66704
+      size: 192815
+  schedule_data_acquisition@2015:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2015 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2015_all.csv
+      hash: md5
+      md5: 9bae3cef23cf161d311bb49da8a0d6ea
+      size: 191571
+  schedule_data_acquisition@2016:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2016 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2016_all.csv
+      hash: md5
+      md5: 6aff53721d4399a7d460c7af15405a4e
+      size: 192719
+  schedule_data_acquisition@2017:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2017 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2017_all.csv
+      hash: md5
+      md5: fc6fa2401a5a7e1c1378a02fe9ea6233
+      size: 192053
+  schedule_data_acquisition@2018:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2018 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2018_all.csv
+      hash: md5
+      md5: 7ac369a931dd5b9380bcdf3a6f47c885
+      size: 192743
+  schedule_data_acquisition@2019:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2019 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2019_all.csv
+      hash: md5
+      md5: 2e53f6aeb9c54d274de508c592bdfa99
+      size: 193307
+  schedule_data_acquisition@2020:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2020 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2020_all.csv
+      hash: md5
+      md5: 4164ee292595642b5f86bd0ce33bbd74
+      size: 167867
+  schedule_data_acquisition@2021:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2021 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2021_all.csv
+      hash: md5
+      md5: 05fc4d7549b5f94ace7b4e072a6ca15d
+      size: 172347
+  schedule_data_acquisition@2022:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2022 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2022_all.csv
+      hash: md5
+      md5: 326aa6c350bf03e33d0da4909884ad7c
+      size: 194575
+  gamelog_cleaning_and_transformation@2010:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2010_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2010_all.csv
+      hash: md5
+      md5: 25ab5ca06ded177dba368351fff23997
+      size: 342273
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2010_all.csv
+      hash: md5
+      md5: 5c3f46544f7fb48a54e1ff073b91f19b
+      size: 406002
+  gamelog_cleaning_and_transformation@2011:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2011_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2011_all.csv
+      hash: md5
+      md5: 51fd5d23a10ec49aa279979b011f62b0
+      size: 342345
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2011_all.csv
+      hash: md5
+      md5: 8666f2594a6afea09a0206858a1668bd
+      size: 405818
+  gamelog_cleaning_and_transformation@2012:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2012_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2012_all.csv
+      hash: md5
+      md5: 33e2c73828f3b6ce025ffd76265cfb1d
+      size: 275217
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2012_all.csv
+      hash: md5
+      md5: 5f77785abef12828146486d1af8b2aec
+      size: 326362
+  gamelog_cleaning_and_transformation@2013:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2013_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2013_all.csv
+      hash: md5
+      md5: 71d35728860553484373092b1d6dec64
+      size: 342640
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2013_all.csv
+      hash: md5
+      md5: e0fd5a4f7739d886561f7500b7af09a3
+      size: 406088
+  gamelog_cleaning_and_transformation@2014:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2014_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2014_all.csv
+      hash: md5
+      md5: b829f9ad73d59418acc748e6a5c40c7a
+      size: 343523
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2014_all.csv
+      hash: md5
+      md5: 6db51252aef41d159b229f9e4fd87b87
+      size: 407226
+  gamelog_cleaning_and_transformation@2015:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2015_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2015_all.csv
+      hash: md5
+      md5: 53f18ed59f6426eccdd542a5b3f6e212
+      size: 343397
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2015_all.csv
+      hash: md5
+      md5: a2ff98c0a38d430abbdace0ec97644a3
+      size: 407180
+  gamelog_cleaning_and_transformation@2016:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2016_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2016_all.csv
+      hash: md5
+      md5: c3001ec61c38fb3dd46dc713d03450ae
+      size: 344019
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2016_all.csv
+      hash: md5
+      md5: f8a373dc4db60ac2d517a4a9e585c47f
+      size: 407656
+  gamelog_cleaning_and_transformation@2017:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2017_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2017_all.csv
+      hash: md5
+      md5: 04281bcf72368a76f90836db91410555
+      size: 344883
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2017_all.csv
+      hash: md5
+      md5: e7b36f20a90c5464ab33f941a4d2c4eb
+      size: 408710
+  gamelog_cleaning_and_transformation@2018:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2018_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2018_all.csv
+      hash: md5
+      md5: 5d044951740021eea06156c78220029c
+      size: 345175
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2018_all.csv
+      hash: md5
+      md5: e2e38bf73887e9390f9657337ee7367c
+      size: 409006
+  gamelog_cleaning_and_transformation@2019:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2019_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2019_all.csv
+      hash: md5
+      md5: a4e7a8bae4ffd0c7689e16c28ee49a7e
+      size: 346687
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2019_all.csv
+      hash: md5
+      md5: 401e854b98d61bfdba8664113da9195a
+      size: 410880
+  gamelog_cleaning_and_transformation@2020:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2020_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2020_all.csv
+      hash: md5
+      md5: 64a35d87d9df41d93c3f5eaac3c96dc5
+      size: 298946
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2020_all.csv
+      hash: md5
+      md5: 43b79418442a119b32aa75e15690509e
+      size: 354256
+  gamelog_cleaning_and_transformation@2021:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2021_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2021_all.csv
+      hash: md5
+      md5: 140a277c798a5fa23fd4923c345a6b73
+      size: 304631
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2021_all.csv
+      hash: md5
+      md5: 817b8c8ea39917d9a9a4344e6a5ea921
+      size: 360982
+  gamelog_cleaning_and_transformation@2022:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2022_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2022_all.csv
+      hash: md5
+      md5: 9ad68ac87a260ef9e2f85f555f5aae39
+      size: 346957
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2022_all.csv
+      hash: md5
+      md5: 1e17754f174b03655cf069aed5dd19d4
+      size: 411032
+  gamelog_cleaning_and_transformation@2024:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2024_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2024_all.csv
+      hash: md5
+      md5: 535460e41477c2c9361458d808cfd68f
+      size: 347535
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2024_all.csv
+      hash: md5
+      md5: 06b36d7e68fe6f85aafa604c36061ba0
+      size: 411710
+  schedule_cleaning_and_transformation@2010:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2010_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2010_all.csv
+      hash: md5
+      md5: ae2bcf90aff808964f397e1e2cf6b989
+      size: 191464
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2010_all.csv
+      hash: md5
+      md5: 051a903d8fd161d039b658a2a8b8f235
+      size: 175224
+  schedule_cleaning_and_transformation@2011:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2011_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2011_all.csv
+      hash: md5
+      md5: a579c41b90d4e3c13ad9ff560f059e2e
+      size: 191217
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2011_all.csv
+      hash: md5
+      md5: 5e374b8b77286c798f07e9a419c6f28c
+      size: 175034
+  schedule_cleaning_and_transformation@2012:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2012_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2012_all.csv
+      hash: md5
+      md5: c8437cdd25148a2304422ff96b665037
+      size: 155965
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2012_all.csv
+      hash: md5
+      md5: a538122ad050566c996b74ce4cf4cf15
+      size: 142659
+  schedule_cleaning_and_transformation@2013:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2013_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2013_all.csv
+      hash: md5
+      md5: bb8afb245e12497c3c0d89866fbb2ef7
+      size: 191343
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2013_all.csv
+      hash: md5
+      md5: d575a43899c6ec8b20637fe4babbe4d2
+      size: 175113
+  schedule_cleaning_and_transformation@2014:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2014_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2014_all.csv
+      hash: md5
+      md5: a248532def0c193dc06913395cb66704
+      size: 192815
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2014_all.csv
+      hash: md5
+      md5: 9403c97f105c06e938047528d48c495d
+      size: 176512
+  schedule_cleaning_and_transformation@2015:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2015_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2015_all.csv
+      hash: md5
+      md5: 9bae3cef23cf161d311bb49da8a0d6ea
+      size: 191571
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2015_all.csv
+      hash: md5
+      md5: 50a47e3093e5a761178708867dc04ee2
+      size: 175374
+  schedule_cleaning_and_transformation@2016:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2016_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2016_all.csv
+      hash: md5
+      md5: 6aff53721d4399a7d460c7af15405a4e
+      size: 192719
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2016_all.csv
+      hash: md5
+      md5: a6a3c846d9cb081fa8d97d08ac25edce
+      size: 176457
+  schedule_cleaning_and_transformation@2017:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2017_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2017_all.csv
+      hash: md5
+      md5: fc6fa2401a5a7e1c1378a02fe9ea6233
+      size: 192053
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2017_all.csv
+      hash: md5
+      md5: 2a901a323c62babc1637c40081ffe733
+      size: 175894
+  schedule_cleaning_and_transformation@2018:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2018_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2018_all.csv
+      hash: md5
+      md5: 7ac369a931dd5b9380bcdf3a6f47c885
+      size: 192743
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2018_all.csv
+      hash: md5
+      md5: bdb0aad2dfff61dac2c262ecedee9e6b
+      size: 176501
+  schedule_cleaning_and_transformation@2019:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2019_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2019_all.csv
+      hash: md5
+      md5: 2e53f6aeb9c54d274de508c592bdfa99
+      size: 193307
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2019_all.csv
+      hash: md5
+      md5: 13145aa05f890fe2246d3328ce88c0a3
+      size: 177063
+  schedule_cleaning_and_transformation@2020:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2020_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2020_all.csv
+      hash: md5
+      md5: 4164ee292595642b5f86bd0ce33bbd74
+      size: 167867
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2020_all.csv
+      hash: md5
+      md5: 91f05c9229b4dceded987fcf4deb53f2
+      size: 153808
+  schedule_cleaning_and_transformation@2021:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2021_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2021_all.csv
+      hash: md5
+      md5: 05fc4d7549b5f94ace7b4e072a6ca15d
+      size: 172347
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2021_all.csv
+      hash: md5
+      md5: e9e5c7f208e0ed042e7c4c18b57e6900
+      size: 157808
+  schedule_cleaning_and_transformation@2022:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2022_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2022_all.csv
+      hash: md5
+      md5: 326aa6c350bf03e33d0da4909884ad7c
+      size: 194575
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2022_all.csv
+      hash: md5
+      md5: 3563c32a78a7e2fa71c8411d30f566ff
+      size: 178206
+  schedule_cleaning_and_transformation@2023:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2023_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2023_all.csv
+      hash: md5
+      md5: 3f7a4c3d8e2343942e93975f1fbbf465
+      size: 194799
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2023_all.csv
+      hash: md5
+      md5: 74bba494094e47a19f8196a8f61d97a6
+      size: 178471
+  schedule_cleaning_and_transformation@2024:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2024_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2024_all.csv
+      hash: md5
+      md5: fdc90fe685fc8ef1cca7caffa3fdd57c
+      size: 194306
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2024_all.csv
+      hash: md5
+      md5: c0184d90990b9e216accc5a8966fd7af
+      size: 177970
+  writte_final_output_to_s3:
+    cmd:
+    - aws s3 cp  ./pipeline_output/gamelog_cleaned/gamelog_2025_all.csv s3://foreshadownba/data-engineering-pipeline-output/gamelogs/
+      --profile=ipfy
+  writte_final_output_to_s3@2025:
+    cmd:
+    - aws s3 cp  ./pipeline_output/gamelog_cleaned//gamelog_2025_all.csv s3://foreshadownba/data-engineering-pipeline-output/gamelogs/
+      --profile=ipfy
+    - aws s3 cp  ./pipeline_output/schedule_cleaned//schedule_2025_all.csv s3://foreshadownba/data-engineering-pipeline-output/schedules/
+      --profile=ipfy
+    deps:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2025_all.csv
+      hash: md5
+      md5: a0ce168a2c5fc9a4a74034973df8f3b9
+      size: 30366
+    - path: ./pipeline_output/schedule_cleaned//schedule_2025_all.csv
+      hash: md5
+      md5: bad43aaaef68b1b4ab0789ebb25c33b7
+      size: 133841
+  gamelog_data_acquisition@2009:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog --season
+      2009 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2009_all.csv
+      hash: md5
+      md5: 2c43e1314f9886a3f871b5ad4f944178
+      size: 342517
+  schedule_data_acquisition@2009:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule --season
+      2009 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2009_all.csv
+      hash: md5
+      md5: 2b1f0ef478e718afb44d3da4674a3e76
+      size: 191854
+  gamelog_cleaning_and_transformation@2009:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name gamelog_2009_all
+      --input-folder ./pipeline_output/gamelog/ --output-folder ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2009_all.csv
+      hash: md5
+      md5: 2c43e1314f9886a3f871b5ad4f944178
+      size: 342517
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2009_all.csv
+      hash: md5
+      md5: 4baef965e3af17a7880d26d0e454e02d
+      size: 406140
+  schedule_cleaning_and_transformation@2009:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name schedule_2009_all
+      --input-folder ./pipeline_output/schedule/ --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2009_all.csv
+      hash: md5
+      md5: 2b1f0ef478e718afb44d3da4674a3e76
+      size: 191854
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2009_all.csv
+      hash: md5
+      md5: 31e07c889cb58a49322723d078c846f7
+      size: 175569
+  writte_final_output_to_s3@2009:
+    cmd:
+    - aws s3 cp  ./pipeline_output/gamelog_cleaned//gamelog_2009_all.csv s3://foreshadownba/data-engineering-pipeline-output/gamelogs/
+      --profile=ipfy
+    - aws s3 cp  ./pipeline_output/schedule_cleaned//schedule_2009_all.csv s3://foreshadownba/data-engineering-pipeline-output/schedules/
+      --profile=ipfy
+    deps:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2009_all.csv
+      hash: md5
+      md5: 4baef965e3af17a7880d26d0e454e02d
+      size: 406140
+    - path: ./pipeline_output/schedule_cleaned//schedule_2009_all.csv
+      hash: md5
+      md5: 31e07c889cb58a49322723d078c846f7
+      size: 175569
