@@ -87,6 +87,3 @@ stages:
       deps:
       - ${project.directory}/${schedule_cleaning_and_transformation.output_folder}/${schedule_data_acquisition.data_type}_${item}_${schedule_data_acquisition.team}.csv
       - ${project.directory}/${gamelog_cleaning_and_transformation.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
-
-
-
