@@ -36,3 +36,6 @@ exit;
 And that’s it you’re good to go!
 
 You can hook up your app to your local database for testing — MySQL runs on port 3306 by default.
+
+# Env vars from AWS
+https://stackoverflow.com/questions/63353288/how-to-configure-use-aws-cli-in-github-actions
