@@ -3,7 +3,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron: 15 09 * * *
+    - cron: 15 * * * *
 jobs:
   data-engineering-pipeline:
     runs-on: ubuntu-latest
