@@ -39,3 +39,7 @@ You can hook up your app to your local database for testing — MySQL runs on po
 
 # Env vars from AWS
 https://stackoverflow.com/questions/63353288/how-to-configure-use-aws-cli-in-github-actions
+
+# shot nba map for all players
+https://lloydhung.medium.com/a-beginners-guide-using-the-nba-api-to-obtain-data-for-shot-charts-part-1-799c679f99e1
+https://github.com/swar/nba_api/blob/master/docs/nba_api/stats/endpoints/shotchartdetail.md

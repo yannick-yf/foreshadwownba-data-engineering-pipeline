@@ -1,9 +1,12 @@
 name: CML
+
 on:
   push:
-  workflow_dispatch:
+    branches:
+      - '*'  # Runs on all branches
   schedule:
-    - cron: '15 14 * * *'
+    - cron: '35 14 * * *'  # Runs every day at 2pm UTC
+  workflow_dispatch:
 jobs:
   data-engineering-pipeline:
     runs-on: ubuntu-latest
