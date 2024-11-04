@@ -20,5 +20,5 @@ jobs:
         run: poetry install --no-root
       - name: Run Data Engineering Pipeline
         run: |
-          poetry run dvc repro -f
+          poetry run dvc repro gamelog_cleaning_and_transformation schedule_cleaning_and_transformation -f
           
