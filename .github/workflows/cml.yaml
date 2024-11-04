@@ -5,7 +5,7 @@ on:
     branches:
       - '*'  # Runs on all branches
   schedule:
-    - cron: '35 14 * * *'  # Runs every day at 2pm UTC
+    - cron: '45 13 * * *'  # Runs every day at 2pm UTC
   workflow_dispatch:
 jobs:
   data-engineering-pipeline:
