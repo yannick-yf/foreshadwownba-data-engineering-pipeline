@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "foreshadwownba-data-engineering-pipeline"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Yannick Flores <yannick.flores1992@gmail.com>"]
 readme = "README.md"
@@ -10,7 +10,7 @@ packages = [{include = "foreshadwownba_data_engineering_pipeline"}]
 python = "3.11.9"
 # ipykernel = "6.29.*"
 pandas = "2.2.2"
-beautifulsoup4 = "*"
+beautifulsoup4 = "4.12.*"
 lxml = "5.3.1"
 requests = "2.32.3"
 basketball-reference-webscrapper = "0.5.0"
