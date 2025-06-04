@@ -2064,3 +2064,192 @@ stages:
       hash: md5
       md5: 31e07c889cb58a49322723d078c846f7
       size: 175569
+  player_gamelogs_data_acquisition@2025:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 2025 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: 36d9b1c886650177c58913b5699412ed
+      size: 8662
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_2025_all.csv
+      hash: md5
+      md5: c963d00492d4fa41f91b66bb12d03dc4
+      size: 3151943
+  player_gamelogs_data_acquisition@2024:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 2024 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: 36d9b1c886650177c58913b5699412ed
+      size: 8662
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_2024_all.csv
+      hash: md5
+      md5: f0884c8889d4aae60a88ece4b9a7e1f9
+      size: 415624
+  player_gamelogs_data_acquisition@2023:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 2023 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: d780f34c014c84d408a02815a467dfe7
+      size: 8680
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_2023_all.csv
+      hash: md5
+      md5: 978de18c84e6fc5a4dddad9842e9aca9
+      size: 314324
+  player_gamelogs_data_acquisition@2017:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 2017 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: d780f34c014c84d408a02815a467dfe7
+      size: 8680
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_2017_all.csv
+      hash: md5
+      md5: ee23c971c126babafbae854f32e75fc6
+      size: 382974
+  player_gamelogs_data_acquisition@2011:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 2011 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: d780f34c014c84d408a02815a467dfe7
+      size: 8680
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_2011_all.csv
+      hash: md5
+      md5: 33a07a03b79fcdefdb8c6441ffc0962b
+      size: 222414
+  player_gamelogs_data_acquisition@2015:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 2015 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: d780f34c014c84d408a02815a467dfe7
+      size: 8680
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_2015_all.csv
+      hash: md5
+      md5: 68c2aa66aeb0da202dd69d89a2f56713
+      size: 305322
+  player_gamelogs_data_acquisition@2001:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 2001 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: d780f34c014c84d408a02815a467dfe7
+      size: 8680
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_2001_all.csv
+      hash: md5
+      md5: a0554850eaaf1c5d0c13807cfc7f0cb5
+      size: 337581
+  player_gamelogs_data_acquisition@2006:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 2006 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: d780f34c014c84d408a02815a467dfe7
+      size: 8680
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_2006_all.csv
+      hash: md5
+      md5: 2771ba855c4861ef23a0c8a57e7d7d63
+      size: 263891
+  player_gamelogs_data_acquisition@1993:
+    cmd:
+    - python3 -m src.exctract.player_gamelogs_data_acquisition  --data-type player_gamelogs
+      --season 1993 --output-folder ./pipeline_output/player_gamelogs/
+    deps:
+    - path: src/exctract/player_gamelogs_data_acquisition.py
+      hash: md5
+      md5: d780f34c014c84d408a02815a467dfe7
+      size: 8680
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        player_gamelogs_data_acquisition:
+          data_type: player_gamelogs
+          output_folder: pipeline_output/player_gamelogs/
+    outs:
+    - path: ./pipeline_output/player_gamelogs//player_gamelogs_1993_all.csv
+      hash: md5
+      md5: 2d371212f4127a1ea0a35e7c5ef1bcd6
+      size: 223499

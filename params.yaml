@@ -3,7 +3,7 @@ base:
 
 global_params:
   season:
-  - 2025
+  - 1993
 
 gamelog_data_acquisition:
   team: all
@@ -25,6 +25,10 @@ player_attributes_data_acquisition:
   team: all
   data_type: player_attributes
   output_folder: pipeline_output/player_attributes/
+
+player_gamelogs_data_acquisition:
+  data_type: player_gamelogs
+  output_folder: pipeline_output/player_gamelogs/
 
 player_salary_data_acquisition:
   data_type: player_salary

@@ -19,6 +19,22 @@ stages:
         - gamelog_data_acquisition
       outs:
         - ${project.directory}/${gamelog_data_acquisition.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
+  player_gamelogs_data_acquisition:
+    foreach: ${global_params.season}
+    do:
+      cmd: 
+      - >- 
+        python3 -m src.exctract.player_gamelogs_data_acquisition 
+        --data-type ${player_gamelogs_data_acquisition.data_type}
+        --season ${item}
+        --output-folder ${project.directory}/${player_gamelogs_data_acquisition.output_folder}
+      deps:
+        - src/exctract/player_gamelogs_data_acquisition.py
+      params:
+        - base
+        - player_gamelogs_data_acquisition
+      outs:
+        - ${project.directory}/${player_gamelogs_data_acquisition.output_folder}/${player_gamelogs_data_acquisition.data_type}_${item}_all.csv
   schedule_data_acquisition:
     foreach: ${global_params.season}
     do:
