@@ -30,6 +30,14 @@ player_salary_data_acquisition:
   data_type: player_salary
   output_folder: pipeline_output/player_salary/
 
+player_game_logs_data_acquisition:
+  team: all
+  data_type: player_gamelog
+  output_folder: pipeline_output/player_game_logs/
+
+player_game_logs_cleaning_and_transformation:
+  output_folder: pipeline_output/player_game_logs_cleaned/
+
 gamelog_schedule_unification:
   data_path: pipeline_output/unified
   file_name: nba_gamelog_schedule_dataset
