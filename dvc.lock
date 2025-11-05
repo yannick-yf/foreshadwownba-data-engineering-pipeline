@@ -2118,3 +2118,122 @@ stages:
       hash: md5
       md5: 31e07c889cb58a49322723d078c846f7
       size: 175569
+  gamelog_data_acquisition@2026:
+    cmd:
+    - python3 -m src.exctract.gamelog_data_acquisition  --data-type gamelog 
+      --season 2026 --team all --output-folder ./pipeline_output/gamelog/
+    deps:
+    - path: src/exctract/gamelog_data_acquisition.py
+      hash: md5
+      md5: 000cbb76a42b4abe0db24f8e6428f486
+      size: 3418
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog//gamelog_2026_all.csv
+      hash: md5
+      md5: 4e4c75c0c1ccb007d4a7604c8278a222
+      size: 35665
+  schedule_data_acquisition@2026:
+    cmd:
+    - python3 -m src.exctract.schedule_data_acquisition  --data-type schedule 
+      --season 2026 --team all --output-folder ./pipeline_output/schedule/
+    deps:
+    - path: src/exctract/schedule_data_acquisition.py
+      hash: md5
+      md5: 0e8d2cf1865423f6e9311290ad66631a
+      size: 3342
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule//schedule_2026_all.csv
+      hash: md5
+      md5: a8e1e72c6fff57db8ec0100bb685c293
+      size: 147653
+  gamelog_cleaning_and_transformation@2026:
+    cmd:
+    - python3 -m src.transform.gamelog_cleaning_and_transformation  --file-name 
+      gamelog_2026_all --input-folder ./pipeline_output/gamelog/ --output-folder
+      ./pipeline_output/gamelog_cleaned/
+    deps:
+    - path: ./pipeline_output/gamelog//gamelog_2026_all.csv
+      hash: md5
+      md5: 4e4c75c0c1ccb007d4a7604c8278a222
+      size: 35665
+    - path: src/transform/gamelog_cleaning_and_transformation.py
+      hash: md5
+      md5: 6e4c8a2b750f19f07dbe6d7d1141d5c8
+      size: 4599
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        gamelog_cleaning_and_transformation:
+          output_folder: pipeline_output/gamelog_cleaned/
+        gamelog_data_acquisition:
+          team: all
+          data_type: gamelog
+          output_folder: pipeline_output/gamelog/
+    outs:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2026_all.csv
+      hash: md5
+      md5: 1da4a781b8aa918518a5f8958ee573d1
+      size: 42162
+  schedule_cleaning_and_transformation@2026:
+    cmd:
+    - python3 -m src.transform.schedule_cleaning_and_transformation  --file-name
+      schedule_2026_all --input-folder ./pipeline_output/schedule/ 
+      --output-folder ./pipeline_output/schedule_cleaned/
+    deps:
+    - path: ./pipeline_output/schedule//schedule_2026_all.csv
+      hash: md5
+      md5: a8e1e72c6fff57db8ec0100bb685c293
+      size: 147653
+    - path: src/transform/schedule_cleaning_and_transformation.py
+      hash: md5
+      md5: 4a8d25b0c8a485deb0eec5c37f0d709b
+      size: 4262
+    params:
+      params.yaml:
+        base:
+          log_level: INFO
+        schedule_cleaning_and_transformation:
+          output_folder: pipeline_output/schedule_cleaned/
+        schedule_data_acquisition:
+          team: all
+          data_type: schedule
+          output_folder: pipeline_output/schedule/
+    outs:
+    - path: ./pipeline_output/schedule_cleaned//schedule_2026_all.csv
+      hash: md5
+      md5: a1cd02f39439dd3c28d56f02c4ca5cb9
+      size: 134595
+  writte_final_output_to_s3@2026:
+    cmd:
+    - aws s3 cp  ./pipeline_output/gamelog_cleaned//gamelog_2026_all.csv 
+      s3://foreshadownba/data-engineering-pipeline-output/gamelogs/ 
+      --profile=ipfy
+    - aws s3 cp  ./pipeline_output/schedule_cleaned//schedule_2026_all.csv 
+      s3://foreshadownba/data-engineering-pipeline-output/schedules/ 
+      --profile=ipfy
+    deps:
+    - path: ./pipeline_output/gamelog_cleaned//gamelog_2026_all.csv
+      hash: md5
+      md5: 1da4a781b8aa918518a5f8958ee573d1
+      size: 42162
+    - path: ./pipeline_output/schedule_cleaned//schedule_2026_all.csv
+      hash: md5
+      md5: a1cd02f39439dd3c28d56f02c4ca5cb9
+      size: 134595
