@@ -934,13 +934,13 @@ dev = ["backports.zoneinfo", "freezegun (>=1.0,<2.0)", "jinja2 (>=3.0)", "pytest
 
 [[package]]
 name = "basketball-reference-webscrapper"
-version = "0.5.1"
+version = "0.5.2"
 description = "Python package for Basketball Reference that gathers data by scraping the website"
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "basketball_reference_webscrapper-0.5.1-py3-none-any.whl", hash = "sha256:4e33903c17a9dc455811cb0fd28f664d95e9a838521a46b3f7b6aaca4eeb8e89"},
-    {file = "basketball_reference_webscrapper-0.5.1.tar.gz", hash = "sha256:83ca1123da4f68a28106d79f674f4692d5bc654e78401e88a467378350f03e5e"},
+    {file = "basketball_reference_webscrapper-0.5.2-py3-none-any.whl", hash = "sha256:bf675952e2122457f97d0fc29c2161f1131f80147ed0b545d0ae5e0d52321a26"},
+    {file = "basketball_reference_webscrapper-0.5.2.tar.gz", hash = "sha256:564c0054d67963ea394a731969960036e0bdcce081e6f1fb91110df041d27678"},
 ]
 
 [package.dependencies]
@@ -8013,4 +8013,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.9"
-content-hash = "689753e0508c19192c93c8da2faf22e6be633fa7af02928cc37cf5f95b69a2ad"
+content-hash = "3afdfdfd00366d3b33ee1ff4206792bbea83d877e1fdb5db5ba10718e41272b4"
