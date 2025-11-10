@@ -934,13 +934,13 @@ dev = ["backports.zoneinfo", "freezegun (>=1.0,<2.0)", "jinja2 (>=3.0)", "pytest
 
 [[package]]
 name = "basketball-reference-webscrapper"
-version = "0.5.2"
+version = "0.5.3"
 description = "Python package for Basketball Reference that gathers data by scraping the website"
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "basketball_reference_webscrapper-0.5.2-py3-none-any.whl", hash = "sha256:bf675952e2122457f97d0fc29c2161f1131f80147ed0b545d0ae5e0d52321a26"},
-    {file = "basketball_reference_webscrapper-0.5.2.tar.gz", hash = "sha256:564c0054d67963ea394a731969960036e0bdcce081e6f1fb91110df041d27678"},
+    {file = "basketball_reference_webscrapper-0.5.3-py3-none-any.whl", hash = "sha256:9dc7e2c94ead5a10ce2669bc23943d9e4331052ab089f687018f3cb864daf8f2"},
+    {file = "basketball_reference_webscrapper-0.5.3.tar.gz", hash = "sha256:91d3e6786719d268470683a6299b939894fa64f652b3cb4a1c20c70f30339a34"},
 ]
 
 [package.dependencies]
@@ -7494,13 +7494,13 @@ files = [
 
 [[package]]
 name = "universal-pathlib"
-version = "0.3.4"
+version = "0.3.5"
 description = "pathlib api extended to use fsspec backends"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "universal_pathlib-0.3.4-py3-none-any.whl", hash = "sha256:69b6250d9a79dbc33a9e6a7b0e732aece8b0e178fe0af35f104b4e207fd9d5ae"},
-    {file = "universal_pathlib-0.3.4.tar.gz", hash = "sha256:8472df61ea931eb7e8158abf5a12ec9c45103dc58716c0103cf5e88712fa357a"},
+    {file = "universal_pathlib-0.3.5-py3-none-any.whl", hash = "sha256:123275e22a6798df40019c3f72728ff37f73aba8734116ae51b08c4b78598f20"},
+    {file = "universal_pathlib-0.3.5.tar.gz", hash = "sha256:e3a9bf8a4e73e25c95c86af5028345013701355e8d573e68dd1ffeeb18fa71b7"},
 ]
 
 [package.dependencies]
@@ -7508,7 +7508,7 @@ fsspec = ">=2024.5.0"
 pathlib-abc = ">=0.5.1,<0.6.0"
 
 [package.extras]
-dev = ["adlfs (>=2024)", "cheroot", "fsspec[adl,gcs,github,http,s3,smb,ssh] (>=2024.5.0)", "gcsfs (>=2024.5.0)", "moto[s3,server]", "s3fs (>=2024.5.0)", "typing_extensions", "webdav4[fsspec]", "wsgidav"]
+dev = ["adlfs (>=2024)", "cheroot", "fsspec[adl,gcs,github,http,s3,smb,ssh] (>=2024.5.0)", "gcsfs (>=2024.5.0)", "huggingface_hub", "moto[s3,server]", "s3fs (>=2024.5.0)", "typing_extensions", "webdav4[fsspec]", "wsgidav"]
 dev-third-party = ["pydantic", "pydantic-settings"]
 tests = ["mypy (>=1.10.0)", "packaging", "pydantic (>=2)", "pylint (>=2.17.4)", "pytest (>=8)", "pytest-cov (>=4.1.0)", "pytest-mock (>=3.12.0)", "pytest-mypy-plugins (>=3.1.2)", "pytest-sugar (>=0.9.7)"]
 typechecking = ["mypy (>=1.10.0)", "pytest-mypy-plugins (>=3.1.2)"]
@@ -8013,4 +8013,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.9"
-content-hash = "3afdfdfd00366d3b33ee1ff4206792bbea83d877e1fdb5db5ba10718e41272b4"
+content-hash = "8867495e7c6424140b2c63cc65b925626789384e5cb80c4e41ca6b95b742f316"

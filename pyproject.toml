@@ -12,7 +12,7 @@ pandas = "2.2.2"
 beautifulsoup4 = "4.12.*"
 lxml = "5.3.1"
 requests = "2.32.3"
-basketball-reference-webscrapper = "0.5.2"
+basketball-reference-webscrapper = "0.5.3"
 dvc = {extras = ["s3"], version = "^3.38.1"}
 sqlalchemy = "1.4.*"
 python-dotenv  = "*"
