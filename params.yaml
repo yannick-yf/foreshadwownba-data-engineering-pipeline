@@ -45,3 +45,14 @@ load_gamelog_schedule_unified_to_csv:
 load_player_attributes_salaries_unified_to_csv:
   data_path: pipeline_output/final
   file_name: player_attributes_salaries_dataset
+
+# NBA API Pipeline Configuration
+nba_api_gamelog_data_acquisition:
+  team: all
+  data_type: gamelog
+  output_folder: pipeline_output/nba_api_gamelog/
+
+nba_api_gamelog_transformation:
+  output_folder: pipeline_output/nba_api_transformed/
+  season_start_date: "2025-10-01"
+  season_end_date: "2026-06-30"

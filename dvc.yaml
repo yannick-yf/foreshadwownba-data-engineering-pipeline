@@ -77,13 +77,60 @@ stages:
     do:
       cmd:
       - >-
-        aws s3 cp 
+        aws s3 cp
         ${project.directory}/${gamelog_cleaning_and_transformation.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
         s3://foreshadownba/data-engineering-pipeline-output/gamelogs/ --profile=ipfy
       - >-
-        aws s3 cp 
+        aws s3 cp
         ${project.directory}/${schedule_cleaning_and_transformation.output_folder}/${schedule_data_acquisition.data_type}_${item}_${schedule_data_acquisition.team}.csv
         s3://foreshadownba/data-engineering-pipeline-output/schedules/ --profile=ipfy
       deps:
       - ${project.directory}/${schedule_cleaning_and_transformation.output_folder}/${schedule_data_acquisition.data_type}_${item}_${schedule_data_acquisition.team}.csv
       - ${project.directory}/${gamelog_cleaning_and_transformation.output_folder}/${gamelog_data_acquisition.data_type}_${item}_${gamelog_data_acquisition.team}.csv
+  nba_api_gamelog_data_acquisition:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >-
+        python3 -m src.exctract.nba_api_gamelog_data_acquisition
+        --data-type ${nba_api_gamelog_data_acquisition.data_type}
+        --season ${item}
+        --team ${nba_api_gamelog_data_acquisition.team}
+        --output-folder ${project.directory}/${nba_api_gamelog_data_acquisition.output_folder}
+      deps:
+        - src/exctract/nba_api_gamelog_data_acquisition.py
+      params:
+        - base
+        - nba_api_gamelog_data_acquisition
+      outs:
+        - ${project.directory}/${nba_api_gamelog_data_acquisition.output_folder}/${nba_api_gamelog_data_acquisition.data_type}_nba_api_${item}_${nba_api_gamelog_data_acquisition.team}.csv
+  nba_api_gamelog_transformation:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >-
+        python3 -m src.transform.nba_api_gamelog_transformation
+        --input-file ${project.directory}/${nba_api_gamelog_data_acquisition.output_folder}/${nba_api_gamelog_data_acquisition.data_type}_nba_api_${item}_${nba_api_gamelog_data_acquisition.team}.csv
+        --output-folder ${project.directory}/${nba_api_gamelog_transformation.output_folder}
+        --season ${item}
+        --season-start-date ${nba_api_gamelog_transformation.season_start_date}
+        --season-end-date ${nba_api_gamelog_transformation.season_end_date}
+      deps:
+        - src/transform/nba_api_gamelog_transformation.py
+        - ${project.directory}/${nba_api_gamelog_data_acquisition.output_folder}/${nba_api_gamelog_data_acquisition.data_type}_nba_api_${item}_${nba_api_gamelog_data_acquisition.team}.csv
+      params:
+        - base
+        - nba_api_gamelog_data_acquisition
+        - nba_api_gamelog_transformation
+      outs:
+        - ${project.directory}/${nba_api_gamelog_transformation.output_folder}/gamelog_nba_api_transformed_${item}.csv
+  nba_api_output_to_s3:
+    foreach: ${global_params.season}
+    do:
+      cmd:
+      - >-
+        aws s3 cp
+        ${project.directory}/${nba_api_gamelog_transformation.output_folder}/gamelog_nba_api_transformed_${item}.csv
+        s3://foreshadownba/data-engineering-pipeline-output/nba-api-gamelogs/ --profile=ipfy
+      deps:
+      - ${project.directory}/${nba_api_gamelog_transformation.output_folder}/gamelog_nba_api_transformed_${item}.csv
